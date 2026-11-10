@@ -43,6 +43,8 @@ function scheduleSave() {
 }
 
 async function loadProfile(uid: string, email: string) {
+  // Returning users from the previous app: reclaim imported progress once the email is verified (checked server-side).
+  try { await supabase.rpc("claim_legacy_profile"); } catch (e) { console.error("Gagal memulihkan akun lama", e); }
   let { data } = await supabase.from("profiles").select("nick, lumi_id, progress").eq("id", uid).maybeSingle();
   if (!data) {
     const ins = await supabase.from("profiles").insert({ id: uid, nick: email.split("@")[0]?.slice(0, 20) || "Pelajar" }).select("nick, lumi_id, progress").single();
