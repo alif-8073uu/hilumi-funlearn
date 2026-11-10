@@ -1,0 +1,103 @@
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="anim-float" viewBox="-20 -35 260 325" width="180" height="210">
+          <style>
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes egg-wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-6deg) scale(1.02); }
+  75% { transform: rotate(6deg) scale(0.98); }
+}
+
+@keyframes tentacle-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+@keyframes super-aura {
+  0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(180deg); }
+  100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes sparkle-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-float { animation: float 3.5s ease-in-out infinite; }
+.anim-egg { animation: egg-wobble 2.2s ease-in-out infinite; }
+.anim-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+.anim-super { animation: super-aura 6s linear infinite; }
+.anim-sparkle { animation: sparkle-rotate 12s linear infinite; }
+
+.eye-blink {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: blink 4s infinite;
+}
+
+.tentacle {
+  transform-origin: top center;
+  transform-box: fill-box;
+  animation: tentacle-sway var(--speed, 2.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style><defs>
+            <linearGradient id="epicGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f43f5e"/>
+              <stop offset="50%" stop-color="#e879f9"/>
+              <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+            <filter id="epicGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+          <!-- Stars Sparks Behind -->
+          <g class="anim-sparkle" transform-origin="100 100">
+            <text x="20" y="40" fill="#fbbf24" font-size="16">✦</text>
+            <text x="170" y="50" fill="#e879f9" font-size="20">✦</text>
+            <text x="30" y="160" fill="#38bdf8" font-size="14">✨</text>
+            <text x="165" y="150" fill="#fbbf24" font-size="18">✨</text>
+          </g>
+          <!-- Tentacles -->
+          <g>
+            <path class="tentacle" style="--delay:0s;" d="M45,130 Q20,180 50,225" fill="none" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.2s;" d="M70,135 Q55,190 75,230" fill="none" stroke="#e879f9" stroke-width="7" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.4s;" d="M95,140 Q90,195 100,235" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.6s;" d="M125,135 Q145,190 125,230" fill="none" stroke="#e879f9" stroke-width="7" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.8s;" d="M155,130 Q180,180 150,225" fill="none" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"/>
+          </g>
+          <!-- Epic Main Shell Body -->
+          <path d="M25,95 C25,15 55,10 100,10 C145,10 175,15 175,95 C175,128 145,130 125,120 C110,112 90,112 75,120 C55,130 25,128 25,95 Z" 
+                fill="url(#epicGrad)" stroke="#ffffff" stroke-width="2.5" filter="url(#epicGlow)"/>
+          <!-- Crystal Crown Ornament -->
+          <path d="M75,15 L100,-8 L125,15 L110,25 L90,25 Z" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <circle cx="100" cy="8" r="5" fill="#38bdf8"/>
+          <!-- Glowing Eyes -->
+          <g class="eye-blink">
+            <circle cx="72" cy="80" r="11" fill="#0f172a"/>
+            <circle cx="75" cy="75" r="4.5" fill="#fff"/>
+            <circle cx="70" cy="84" r="2" fill="#fbbf24"/>
+            <circle cx="128" cy="80" r="11" fill="#0f172a"/>
+            <circle cx="131" cy="75" r="4.5" fill="#fff"/>
+            <circle cx="126" cy="84" r="2" fill="#fbbf24"/>
+          </g>
+          <path d="M88,94 Q100,106 112,94" fill="none" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      

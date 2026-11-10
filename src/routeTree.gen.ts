@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as BelajarRouteImport } from './routes/belajar'
+import { Route as FlashcardRouteImport } from './routes/flashcard'
+import { Route as KuisRouteImport } from './routes/kuis'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as TemanRouteImport } from './routes/teman'
+import { Route as ApiSpeakRouteImport } from './routes/api/speak'
+import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BelajarRoute = BelajarRouteImport.update({
+  id: '/belajar',
+  path: '/belajar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlashcardRoute = FlashcardRouteImport.update({
+  id: '/flashcard',
+  path: '/flashcard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KuisRoute = KuisRouteImport.update({
+  id: '/kuis',
+  path: '/kuis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TemanRoute = TemanRouteImport.update({
+  id: '/teman',
+  path: '/teman',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSpeakRoute = ApiSpeakRouteImport.update({
+  id: '/api/speak',
+  path: '/api/speak',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
+  id: '/api/transcribe',
+  path: '/api/transcribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/belajar': typeof BelajarRoute
+  '/flashcard': typeof FlashcardRoute
+  '/kuis': typeof KuisRoute
+  '/profil': typeof ProfilRoute
+  '/teman': typeof TemanRoute
+  '/api/speak': typeof ApiSpeakRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/belajar': typeof BelajarRoute
+  '/flashcard': typeof FlashcardRoute
+  '/kuis': typeof KuisRoute
+  '/profil': typeof ProfilRoute
+  '/teman': typeof TemanRoute
+  '/api/speak': typeof ApiSpeakRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/belajar': typeof BelajarRoute
+  '/flashcard': typeof FlashcardRoute
+  '/kuis': typeof KuisRoute
+  '/profil': typeof ProfilRoute
+  '/teman': typeof TemanRoute
+  '/api/speak': typeof ApiSpeakRoute
+  '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/belajar'
+    | '/flashcard'
+    | '/kuis'
+    | '/profil'
+    | '/teman'
+    | '/api/speak'
+    | '/api/transcribe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/belajar'
+    | '/flashcard'
+    | '/kuis'
+    | '/profil'
+    | '/teman'
+    | '/api/speak'
+    | '/api/transcribe'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/belajar'
+    | '/flashcard'
+    | '/kuis'
+    | '/profil'
+    | '/teman'
+    | '/api/speak'
+    | '/api/transcribe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  BelajarRoute: typeof BelajarRoute
+  FlashcardRoute: typeof FlashcardRoute
+  KuisRoute: typeof KuisRoute
+  ProfilRoute: typeof ProfilRoute
+  TemanRoute: typeof TemanRoute
+  ApiSpeakRoute: typeof ApiSpeakRoute
+  ApiTranscribeRoute: typeof ApiTranscribeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/belajar': {
+      id: '/belajar'
+      path: '/belajar'
+      fullPath: '/belajar'
+      preLoaderRoute: typeof BelajarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flashcard': {
+      id: '/flashcard'
+      path: '/flashcard'
+      fullPath: '/flashcard'
+      preLoaderRoute: typeof FlashcardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kuis': {
+      id: '/kuis'
+      path: '/kuis'
+      fullPath: '/kuis'
+      preLoaderRoute: typeof KuisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teman': {
+      id: '/teman'
+      path: '/teman'
+      fullPath: '/teman'
+      preLoaderRoute: typeof TemanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/speak': {
+      id: '/api/speak'
+      path: '/api/speak'
+      fullPath: '/api/speak'
+      preLoaderRoute: typeof ApiSpeakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/transcribe': {
+      id: '/api/transcribe'
+      path: '/api/transcribe'
+      fullPath: '/api/transcribe'
+      preLoaderRoute: typeof ApiTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  BelajarRoute: BelajarRoute,
+  FlashcardRoute: FlashcardRoute,
+  KuisRoute: KuisRoute,
+  ProfilRoute: ProfilRoute,
+  TemanRoute: TemanRoute,
+  ApiSpeakRoute: ApiSpeakRoute,
+  ApiTranscribeRoute: ApiTranscribeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

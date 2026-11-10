@@ -1,0 +1,92 @@
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="anim-float" viewBox="-20 -35 260 325" width="180" height="210">
+          <style>
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes egg-wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-6deg) scale(1.02); }
+  75% { transform: rotate(6deg) scale(0.98); }
+}
+
+@keyframes tentacle-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+@keyframes super-aura {
+  0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(180deg); }
+  100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes sparkle-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-float { animation: float 3.5s ease-in-out infinite; }
+.anim-egg { animation: egg-wobble 2.2s ease-in-out infinite; }
+.anim-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+.anim-super { animation: super-aura 6s linear infinite; }
+.anim-sparkle { animation: sparkle-rotate 12s linear infinite; }
+
+.eye-blink {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: blink 4s infinite;
+}
+
+.tentacle {
+  transform-origin: top center;
+  transform-box: fill-box;
+  animation: tentacle-sway var(--speed, 2.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style><defs>
+            <linearGradient id="miniGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7dd3fc"/>
+              <stop offset="60%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+          </defs>
+          <!-- Tentacles -->
+          <g>
+            <path class="tentacle" style="--delay:0s;" d="M65,135 Q50,175 70,205" fill="none" stroke="#38bdf8" stroke-width="7" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.2s;" d="M88,140 Q80,180 92,210" fill="none" stroke="#818cf8" stroke-width="7" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.5s;" d="M112,140 Q120,180 108,210" fill="none" stroke="#818cf8" stroke-width="7" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.7s;" d="M135,135 Q150,175 130,205" fill="none" stroke="#38bdf8" stroke-width="7" stroke-linecap="round"/>
+          </g>
+          <!-- Head -->
+          <path d="M35,105 C35,40 65,30 100,30 C135,30 165,40 165,105 C165,128 140,126 122,120 C108,115 92,115 78,120 C60,126 35,128 35,105 Z" fill="url(#miniGrad)" stroke="#0284c7" stroke-width="3"/>
+          <ellipse cx="70" cy="55" rx="14" ry="7" fill="#fff" opacity="0.5" transform="rotate(-25 70 55)"/>
+          <!-- Cheeks -->
+          <ellipse cx="68" cy="100" rx="9" ry="5" fill="#f43f5e" opacity="0.5"/>
+          <ellipse cx="132" cy="100" rx="9" ry="5" fill="#f43f5e" opacity="0.5"/>
+          <!-- Eyes -->
+          <g class="eye-blink">
+            <circle cx="78" cy="90" r="9" fill="#0f172a"/>
+            <circle cx="81" cy="86" r="3.5" fill="#fff"/>
+            <circle cx="122" cy="90" r="9" fill="#0f172a"/>
+            <circle cx="125" cy="86" r="3.5" fill="#fff"/>
+          </g>
+          <!-- Happy Mouth -->
+          <path d="M92,97 Q100,108 108,97 Z" fill="#0f172a"/>
+          <!-- Head Gem Accent -->
+          <polygon points="100,20 106,30 100,40 94,30" fill="#fbbf24"/>
+        </svg>
+      

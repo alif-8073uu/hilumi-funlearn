@@ -1,42 +1,18 @@
-/*
- * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
- * - Keep every @import in this top block, above @theme and the rest of the file. Install an
- *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
- *   build resolves @import from the filesystem. Load those with a <link> in the head() of
- *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
- */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
+  --font-sans: "Nunito", system-ui, sans-serif;
+  --font-display: "Fredoka", "Nunito", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -53,103 +29,109 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-flame: var(--flame);
+  --color-sun: var(--sun);
+  --color-coral: var(--coral);
+  --color-lumi-blue: var(--lumi-blue);
   --color-border: var(--border);
+  --color-google: var(--google);
+  --color-google-foreground: var(--google-foreground);
+  --color-google-border: var(--google-border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Deep-sea night theme: Lumi glows in dark water */
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --radius: 1.25rem;
+  --background: oklch(0.2 0.06 255);
+  --foreground: oklch(0.96 0.02 240);
+  --card: oklch(0.26 0.07 258);
+  --card-foreground: oklch(0.96 0.02 240);
+  --popover: oklch(0.26 0.07 258);
+  --popover-foreground: oklch(0.96 0.02 240);
+  --primary: oklch(0.78 0.15 350);
+  --primary-foreground: oklch(0.22 0.08 300);
+  --secondary: oklch(0.33 0.08 255);
+  --secondary-foreground: oklch(0.96 0.02 240);
+  --muted: oklch(0.3 0.06 255);
+  --muted-foreground: oklch(0.75 0.05 245);
+  --accent: oklch(0.8 0.12 200);
+  --accent-foreground: oklch(0.2 0.06 255);
+  --destructive: oklch(0.66 0.2 22);
+  --destructive-foreground: oklch(0.98 0 0);
+  --success: oklch(0.78 0.16 160);
+  --flame: oklch(0.74 0.18 50);
+  --sun: oklch(0.86 0.16 85);
+  --coral: oklch(0.72 0.17 25);
+  --lumi-blue: oklch(0.79 0.12 235);
+  --lumi-body-light: oklch(0.9 0.07 225);
+  --lumi-body-mid: oklch(0.76 0.14 235);
+  --lumi-body-deep: oklch(0.62 0.16 250);
+  --border: oklch(0.4 0.07 255);
+  --google: oklch(0.19 0.003 286);
+  --google-foreground: oklch(0.91 0.004 286);
+  --google-border: oklch(0.65 0.006 160);
+  --input: oklch(0.36 0.07 255);
+  --ring: oklch(0.78 0.15 350);
+  --gradient-sea: radial-gradient(ellipse at 50% -10%, oklch(0.4 0.12 265) 0%, oklch(0.22 0.07 255) 45%, oklch(0.15 0.05 255) 100%);
+  --gradient-lumi: linear-gradient(135deg, oklch(0.82 0.13 350), oklch(0.7 0.16 300));
+  --gradient-flame: linear-gradient(135deg, oklch(0.86 0.16 85), oklch(0.7 0.19 40));
+  --shadow-glow: 0 0 40px -6px color-mix(in oklab, var(--primary) 55%, transparent);
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
+  * { border-color: var(--color-border); }
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-sea) fixed;
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    min-height: 100vh;
   }
+  h1, h2, h3 { font-family: var(--font-display); }
 }
+
+@utility bg-lumi { background-image: var(--gradient-lumi); }
+@utility bg-flame { background-image: var(--gradient-flame); }
+@utility shadow-glow { box-shadow: var(--shadow-glow); }
+@utility glass {
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* Lumi mascot motion */
+@keyframes lumi-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-10px) } }
+@keyframes lumi-hop { 0%,100% { transform: translateY(0) } 40% { transform: translateY(-18px) } }
+@keyframes lumi-sway { 0%,100% { transform: rotate(-7deg) } 50% { transform: rotate(7deg) } }
+@keyframes lumi-blink { 0%,94%,100% { transform: scaleY(1) } 97% { transform: scaleY(.1) } }
+@keyframes lumi-pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.03, .97) } }
+@keyframes lumi-tilt { 0%,100% { transform: rotate(-4deg) } 50% { transform: rotate(4deg) } }
+@keyframes bubble-rise { from { transform: translateY(0); opacity: 0 } 10% { opacity: .6 } to { transform: translateY(-100vh); opacity: 0 } }
+.lumi-float { animation: lumi-float 3.2s ease-in-out infinite }
+.lumi-hop { animation: lumi-hop .8s ease-in-out infinite }
+.lumi-tilt { transform-origin: 100px 120px; transform-box: view-box; animation: lumi-tilt 2s ease-in-out infinite }
+.lumi-t { transform-origin: top center; transform-box: fill-box; animation: lumi-sway 2.4s ease-in-out infinite }
+.lumi-eye { transform-origin: center; transform-box: fill-box; animation: lumi-blink 4.5s infinite }
+.lumi-bell { transform-origin: 100px 110px; transform-box: view-box; animation: lumi-pulse 3.2s ease-in-out infinite }
+@keyframes lumi-laugh { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-8px) scale(1.04,.95) } }
+@keyframes lumi-rumble { 0%,100% { transform: translate(-2px,1px) } 50% { transform: translate(2px,-1px) } }
+@keyframes lumi-shake { 0%,100% { transform: rotate(0) } 20% { transform: rotate(-13deg) } 60% { transform: rotate(13deg) } }
+@keyframes lumi-steam { from { transform: translateY(0); opacity: .9 } to { transform: translateY(-34px); opacity: 0 } }
+.lumi-laugh { transform-origin: 100px 130px; animation: lumi-laugh .38s ease-in-out infinite }
+.lumi-rumble { animation: lumi-rumble .09s linear infinite }
+.lumi-shake { transform-origin: 100px 130px; animation: lumi-shake 1s ease-in-out infinite }
+.lumi-shiver { animation: lumi-rumble .14s linear infinite }
+.lumi-steam { animation: lumi-steam 1.4s ease-out infinite }
+.lumi-sparkles { animation: lumi-pulse .7s ease-in-out infinite alternate }
+.bubble { position: fixed; bottom: -20px; border-radius: 9999px; border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent); animation: bubble-rise linear infinite; pointer-events: none }
+
+/* 3D flashcard */
+.flip { perspective: 1200px }
+.flip-inner { transition: transform .6s; transform-style: preserve-3d; position: relative }
+.flip-inner.flipped { transform: rotateY(180deg) }
+.flip-face { backface-visibility: hidden; position: absolute; inset: 0 }
+.flip-back { transform: rotateY(180deg) }
+
+@media (prefers-reduced-motion: reduce) { * { animation-duration: 0s !important } }
