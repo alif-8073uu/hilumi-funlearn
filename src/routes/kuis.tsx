@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { MaterialForm } from "@/components/MaterialForm";
+import { MathInline } from "@/components/MathText";
 import { makeQuiz, type QuizQ } from "@/lib/ai.functions";
 import { buildMaterial } from "@/lib/extract";
 import { clampMinutes, clampQuestions, duelPoints, getRank, wrongReaction, MAX_MINUTES, MAX_QUESTIONS } from "@/lib/game";
@@ -141,11 +142,11 @@ function Play({ qs, seconds, opp, oppName, onExit }: { qs: QuizQ[]; seconds: num
         {opp !== "solo" ? <span>Kamu {points} · {oppName} {oppPoints}</span> : <span>Combo x{combo}</span>}
       </div>
       <div className="glass rounded-3xl p-5">
-        <h2 className="text-xl font-bold">{q.q}</h2>
+        <h2 className="text-xl font-bold"><MathInline>{q.q}</MathInline></h2>
         <div className="mt-4 grid gap-2">
           {q.options.map((o, k) => {
             const state = picked == null ? "" : k === q.answer ? "border-success bg-success/20" : k === picked ? "border-destructive bg-destructive/20" : "opacity-60";
-            return <Button variant="outline" key={k} disabled={picked != null || done} onClick={() => answer(k)} className={`h-auto min-h-12 justify-start whitespace-normal rounded-2xl border-2 px-4 py-3 text-left font-bold transition hover:border-primary ${state}`}>{"ABCD"[k]}. {o}</Button>;
+            return <Button variant="outline" key={k} disabled={picked != null || done} onClick={() => answer(k)} className={`h-auto min-h-12 justify-start whitespace-normal rounded-2xl border-2 px-4 py-3 text-left font-bold transition hover:border-primary ${state}`}>{"ABCD"[k]}.&nbsp;<MathInline>{o}</MathInline></Button>;
           })}
         </div>
         {picked != null && (
@@ -153,7 +154,7 @@ function Play({ qs, seconds, opp, oppName, onExit }: { qs: QuizQ[]; seconds: num
             <Lumi mood={picked === q.answer ? "victory" : wrongReaction(wrongCount)} size={90} />
             <div className="flex-1">
               <p className="font-bold">{picked === q.answer ? "Hebat! Jawabanmu benar!" : wrongReaction(wrongCount)==="laughing" ? "Aduh, salah! Hahaha, coba lagi ya!" : wrongReaction(wrongCount)==="angry" ? "Aduh, kok salah! Baca lagi materinya ya!" : "Hmm… belum tepat. Pelan-pelan saja ya."}</p>
-              <p className="text-sm text-muted-foreground">{q.explain}</p>
+              <p className="text-sm text-muted-foreground"><MathInline>{q.explain}</MathInline></p>
             </div>
             <Button onClick={next}>{i + 1 >= qs.length ? "Selesai" : "Lanjut"}</Button>
           </div>

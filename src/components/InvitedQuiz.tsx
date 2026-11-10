@@ -11,6 +11,7 @@ import { quizStandings, getRank, wrongReaction } from "@/lib/game";
 import type { QuizQ } from "@/lib/ai.functions";
 import type { Json } from "@/integrations/supabase/types";
 import { useEffect } from "react";
+import { MathInline } from "@/components/MathText";
 
 export function InvitedQuiz({ id }: { id: string }) {
   const uid = useStore((s) => s.uid);
@@ -68,12 +69,12 @@ export function InvitedQuiz({ id }: { id: string }) {
       <h2 className="text-xl font-bold">Peringkat Pertandingan</h2>
       <ol className="divide-y">{standings.map((p) => <li key={p.userId} className="flex justify-between py-3"><span>#{p.place} {names.find((n) => n.id===p.userId)?.nick}{p.userId===uid ? " (Kamu)" : ""}</span><b>{p.points} poin</b></li>)}</ol>
       <p className="text-sm text-muted-foreground">{quiz.credited ? "🔥 Semua anggota selesai — streak bersama menyala!" : `${players.filter((p) => p.completed_at).length}/${players.length} selesai · peringkat sementara`}</p>
-      {review.map((r,i) => <div key={i} className="flex gap-3 border-t py-4"><Lumi mood={answers[i]===r.answer ? "victory" : wrongReaction(review.slice(0,i+1).filter((a,k) => answers[k]!==a.answer).length)} size={65}/><div><b>{r.q}</b><p className="text-success">{r.options[r.answer]}</p><p className="text-sm text-muted-foreground">{r.explain}</p></div></div>)}
+      {review.map((r,i) => <div key={i} className="flex gap-3 border-t py-4"><Lumi mood={answers[i]===r.answer ? "victory" : wrongReaction(review.slice(0,i+1).filter((a,k) => answers[k]!==a.answer).length)} size={65}/><div><b><MathInline>{r.q}</MathInline></b><p className="text-success"><MathInline>{r.options[r.answer] ?? ""}</MathInline></p><p className="text-sm text-muted-foreground"><MathInline>{r.explain}</MathInline></p></div></div>)}
       <Link to="/teman"><Button>Kembali ke Streak</Button></Link>
     </> : q ? <>
       <div className="flex justify-between font-bold"><span>Soal {index+1}/{questions.length}</span><span>⏱ {Math.floor(left/60)}:{String(left%60).padStart(2,"0")}</span></div>
-      <h2 className="text-xl font-bold">{q.q}</h2>
-      <div className="grid gap-3">{q.options.map((option,k) => <Button key={k} variant={answers[index]===k ? "default":"secondary"} disabled={left===0||busy} className="h-auto min-h-12 justify-start whitespace-normal py-3 text-left" onClick={() => setAnswers((s) => { const a=[...s]; a[index]=k; return a; })}>{"ABCD"[k]}. {option}</Button>)}</div>
+      <h2 className="text-xl font-bold"><MathInline>{q.q}</MathInline></h2>
+      <div className="grid gap-3">{q.options.map((option,k) => <Button key={k} variant={answers[index]===k ? "default":"secondary"} disabled={left===0||busy} className="h-auto min-h-12 justify-start whitespace-normal py-3 text-left" onClick={() => setAnswers((s) => { const a=[...s]; a[index]=k; return a; })}>{"ABCD"[k]}.&nbsp;<MathInline>{option}</MathInline></Button>)}</div>
       <div className="flex justify-between"><Button variant="secondary" disabled={index===0||busy} onClick={() => setIndex((s) => s-1)}>Sebelumnya</Button>{index+1<questions.length && left>0 ? <Button disabled={answers[index]==null} onClick={() => setIndex((s) => s+1)}>Lanjut</Button> : <Button onClick={finish} disabled={busy}>{busy?"Menyimpan…":"Selesai & Lihat Peringkat"}</Button>}</div>
       {left===0 && <p className="text-destructive">Waktu habis. Kirim jawaban sekarang.</p>}
     </> : <>
