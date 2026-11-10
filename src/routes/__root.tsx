@@ -40,6 +40,18 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
+    // After an app update, an open tab may request page files that no longer exist.
+    // Reload once to pick up the new version instead of showing a blank screen.
+    const msg = String((error as Error)?.message ?? error);
+    if (/dynamically imported module|Importing a module script failed|Failed to fetch dynamically/i.test(msg)) {
+      const key = "hilumi-chunk-reload";
+      const last = Number(sessionStorage.getItem(key) ?? 0);
+      if (Date.now() - last > 10_000) {
+        sessionStorage.setItem(key, String(Date.now()));
+        window.location.reload();
+        return;
+      }
+    }
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
