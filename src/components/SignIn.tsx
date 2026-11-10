@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
+import { ChevronDown, Eye, EyeOff } from "lucide-react";
 import { Lumi } from "./Lumi";
 import { AboutHiLumi } from "./AboutHiLumi";
 import { Button } from "./ui/button";
@@ -19,6 +19,19 @@ export function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [taken, setTaken] = useState(false);
+  const [showHint, setShowHint] = useState(true);
+
+  // Hide the floating "Kenalan yuk" pill once the Tentang section is on screen.
+  useEffect(() => {
+    const section = document.getElementById("tentang-hilumi")?.closest("section");
+    if (!section) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowHint(!entry.isIntersecting),
+      { threshold: 0.08 },
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
