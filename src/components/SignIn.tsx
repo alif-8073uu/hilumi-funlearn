@@ -80,6 +80,7 @@ export function SignIn() {
               </div>
               <Button type="submit" disabled={busy} className="w-full bg-lumi text-primary-foreground shadow-glow">{mode === "masuk" ? "Masuk" : "Buat Akun"}</Button>
             </form>
+            <p className="text-center text-xs text-muted-foreground">Sudah punya akun HiLumi lama? Pilih <b>Daftar</b> dengan email yang sama dan buat kata sandi baru, atau pakai Google. Setelah emailmu terverifikasi, progresmu otomatis kembali.</p>
           </>
         )}
       </div>
