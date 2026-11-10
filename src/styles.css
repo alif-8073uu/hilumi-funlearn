@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -126,6 +127,29 @@
 .lumi-steam { animation: lumi-steam 1.4s ease-out infinite }
 .lumi-sparkles { animation: lumi-pulse .7s ease-in-out infinite alternate }
 .bubble { position: fixed; bottom: -20px; border-radius: 9999px; border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent); animation: bubble-rise linear infinite; pointer-events: none }
+
+/* Lumi's chat answers: friendly reading text + glowing formula cards */
+.lumi-rich { font-size: 1rem; line-height: 1.7; letter-spacing: .005em }
+.lumi-rich > * + * { margin-top: .7rem }
+.lumi-rich p:first-child::first-letter { font-family: var(--font-display); font-size: 1.35em; color: var(--primary) }
+.lumi-rich strong { font-weight: 800; color: var(--sun) }
+.lumi-rich em { color: var(--accent) }
+.lumi-rich ul, .lumi-rich ol { padding-left: 1.4rem }
+.lumi-rich ul { list-style: none }
+.lumi-rich ul > li { position: relative }
+.lumi-rich ul > li::before { content: "✦"; position: absolute; left: -1.2rem; color: var(--primary) }
+.lumi-rich ol { list-style: decimal }
+.lumi-rich ol > li::marker { font-family: var(--font-display); font-weight: 700; color: var(--accent) }
+.lumi-rich li + li { margin-top: .35rem }
+.lumi-rich code { font-family: ui-monospace, monospace; background: var(--muted); padding: .1rem .35rem; border-radius: .4rem }
+.lumi-rich .katex { font-size: 1.12em; color: var(--lumi-body-light) }
+.lumi-rich .katex-display {
+  margin: .9rem 0; padding: .9rem 1rem; overflow-x: auto; overflow-y: hidden;
+  border-radius: 1rem; border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent);
+  background: linear-gradient(135deg, color-mix(in oklab, var(--accent) 14%, transparent), color-mix(in oklab, var(--primary) 12%, transparent));
+  box-shadow: 0 0 24px -10px var(--accent);
+}
+.lumi-rich .katex-display .katex { font-size: 1.35em; color: var(--sun) }
 
 /* 3D flashcard */
 .flip { perspective: 1200px }
