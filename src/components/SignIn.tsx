@@ -98,9 +98,9 @@ export function SignIn() {
         <button
           type="button"
           onClick={() => document.getElementById("tentang-hilumi")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-          className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full bg-lumi px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-glow"
+          className="fixed bottom-4 right-3 z-50 rounded-full bg-lumi px-4 py-2 text-xs font-bold text-primary-foreground shadow-glow"
         >
-          Kenalan yuk <ChevronDown className="inline h-4 w-4 animate-bounce" />
+          Kenalan yuk <ChevronDown className="inline h-3.5 w-3.5 animate-bounce" />
         </button>
       )}
       <AboutHiLumi />
