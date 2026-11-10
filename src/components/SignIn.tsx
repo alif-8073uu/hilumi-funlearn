@@ -60,36 +60,30 @@ export function SignIn() {
       <h1 className="text-4xl font-bold">Hi<span className="text-lumi-blue">Lumi</span></h1>
       <p className="text-muted-foreground">Guru bayangan AI untuk siswa SMP se-Kota Bandung. Progresmu tersimpan aman di akunmu.</p>
       <div className="glass w-full space-y-4 rounded-3xl p-5 text-left">
-        {sent ? (
-          <p className="text-center font-bold">Cek email <span className="text-primary">{email}</span> lalu klik tautan konfirmasi untuk mengaktifkan akunmu. 📬</p>
-        ) : (
-          <>
-            <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">
-              {(["masuk", "daftar"] as const).map((m) => (
-                <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-full py-2 text-sm font-bold ${mode === m ? "bg-lumi text-primary-foreground" : "text-muted-foreground"}`}>
-                  {m === "masuk" ? "Masuk" : "Daftar"}
-                </button>
-              ))}
-            </div>
-            <Button type="button" variant="google" onClick={google} className="w-full">
-              <span aria-hidden="true" className="h-[18px] w-[18px]" dangerouslySetInnerHTML={{ __html: G }} />
-              Lanjutkan dengan Google
+        <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">
+          {(["masuk", "daftar"] as const).map((m) => (
+            <button key={m} type="button" onClick={() => { setMode(m); setTaken(false); }} className={`rounded-full py-2 text-sm font-bold ${mode === m ? "bg-lumi text-primary-foreground" : "text-muted-foreground"}`}>
+              {m === "masuk" ? "Masuk" : "Daftar"}
+            </button>
+          ))}
+        </div>
+        <Button type="button" variant="google" onClick={google} className="w-full">
+          <span aria-hidden="true" className="h-[18px] w-[18px]" dangerouslySetInnerHTML={{ __html: G }} />
+          Lanjutkan dengan Google
+        </Button>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />atau dengan email<span className="h-px flex-1 bg-border" /></div>
+        <form onSubmit={submit} className="space-y-3">
+          {mode === "daftar" && <Input value={nick} onChange={(e) => setNick(e.target.value)} placeholder="Nickname (contoh: RaniPintar)" required maxLength={20} />}
+          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+          <div className="relative">
+            <Input aria-label="Kata sandi" type={showPassword ? "text" : "password"} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Kata sandi" required autoComplete={mode === "daftar" ? "new-password" : "current-password"} className="pr-12" />
+            <Button type="button" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground" aria-label={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} title={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} aria-pressed={showPassword} onClick={() => setShowPassword((v) => !v)}>
+              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </Button>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />atau dengan email<span className="h-px flex-1 bg-border" /></div>
-            <form onSubmit={submit} className="space-y-3">
-              {mode === "daftar" && <Input value={nick} onChange={(e) => setNick(e.target.value)} placeholder="Nickname (contoh: RaniPintar)" required maxLength={20} />}
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-              <div className="relative">
-                <Input aria-label="Kata sandi" type={showPassword ? "text" : "password"} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Kata sandi" required autoComplete={mode === "daftar" ? "new-password" : "current-password"} className="pr-12" />
-                <Button type="button" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground" aria-label={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} title={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} aria-pressed={showPassword} onClick={() => setShowPassword((v) => !v)}>
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </Button>
-              </div>
-              <Button type="submit" disabled={busy} className="w-full bg-lumi text-primary-foreground shadow-glow">{mode === "masuk" ? "Masuk" : "Buat Akun"}</Button>
-            </form>
-            <p className="text-center text-xs text-muted-foreground">Sudah punya akun HiLumi lama? Pilih <b>Daftar</b> dengan email yang sama dan buat kata sandi baru, atau pakai Google. Setelah emailmu terverifikasi, progresmu otomatis kembali.</p>
-          </>
-        )}
+          </div>
+          <Button type="submit" disabled={busy} className="w-full bg-lumi text-primary-foreground shadow-glow">{mode === "masuk" ? "Masuk" : "Buat Akun"}</Button>
+        </form>
+        <p className="text-center text-xs text-muted-foreground">Pengguna HiLumi lama? Masuk dengan Google, atau daftar lalu buka <b>Profil → Pulihkan progres lama</b>.</p>
       </div>
       <Link to="/admin" className="text-sm text-muted-foreground underline">Masuk sebagai Admin</Link>
     </div>
