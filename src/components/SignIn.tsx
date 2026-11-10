@@ -26,7 +26,7 @@ export function SignIn() {
     const section = document.getElementById("tentang-hilumi")?.closest("section");
     if (!section) return;
     const io = new IntersectionObserver(
-      ([entry]) => setShowHint(!entry.isIntersecting),
+      (entries) => setShowHint(!entries[0]?.isIntersecting),
       { threshold: 0.08 },
     );
     io.observe(section);
