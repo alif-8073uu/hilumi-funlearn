@@ -74,7 +74,13 @@ export function SignIn() {
         <div className="flex items-center gap-2 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />atau dengan email<span className="h-px flex-1 bg-border" /></div>
         <form onSubmit={submit} className="space-y-3">
           {mode === "daftar" && <Input value={nick} onChange={(e) => setNick(e.target.value)} placeholder="Nickname (contoh: RaniPintar)" required maxLength={20} />}
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+          <Input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setTaken(false); }} placeholder="Email" required aria-invalid={taken} />
+          {taken && (
+            <p role="alert" className="rounded-xl bg-destructive/15 px-3 py-2 text-sm font-bold text-destructive">
+              ⚠️ Email ini sudah terdaftar.{" "}
+              <button type="button" className="underline" onClick={() => { setMode("masuk"); setTaken(false); }}>Masuk saja</button>
+            </p>
+          )}
           <div className="relative">
             <Input aria-label="Kata sandi" type={showPassword ? "text" : "password"} value={pass} onChange={(e) => setPass(e.target.value)} placeholder="Kata sandi" required autoComplete={mode === "daftar" ? "new-password" : "current-password"} className="pr-12" />
             <Button type="button" variant="ghost" size="icon" className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 text-muted-foreground" aria-label={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} title={showPassword ? "Sembunyikan kata sandi" : "Lihat kata sandi"} aria-pressed={showPassword} onClick={() => setShowPassword((v) => !v)}>
