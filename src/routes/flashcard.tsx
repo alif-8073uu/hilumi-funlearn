@@ -5,6 +5,7 @@ import { Shell } from "@/components/Shell";
 import { Lumi } from "@/components/Lumi";
 import { Button } from "@/components/ui/button";
 import { MaterialForm } from "@/components/MaterialForm";
+import { MathInline } from "@/components/MathText";
 import { makeFlashcards } from "@/lib/ai.functions";
 import { buildMaterial } from "@/lib/extract";
 import { actions, useStore, type Deck } from "@/lib/store";
@@ -104,9 +105,9 @@ function Study({ deck, exam, onExit }: { deck: Deck; exam: boolean; onExit: () =
       <p className="text-center font-bold">{exam ? "Ujian Kilat" : "Ulangi"} · {pos + 1}/{queue.length}</p>
       <button className="flip block h-72 w-full" onClick={() => setFlipped(!flipped)}>
         <div className={`flip-inner h-full ${flipped ? "flipped" : ""}`}>
-          <div className="flip-face glass grid place-items-center rounded-3xl p-6 text-2xl font-bold">{c.front}</div>
+          <div className="flip-face glass grid place-items-center rounded-3xl p-6 text-2xl font-bold"><MathInline>{c.front}</MathInline></div>
           <div className="flip-face flip-back grid place-items-center rounded-3xl bg-lumi p-6 text-primary-foreground">
-            <div><p className="text-xl font-bold">{c.back}</p><p className="mt-3 text-sm">💡 {c.trick}</p></div>
+            <div><p className="text-xl font-bold"><MathInline>{c.back}</MathInline></p><p className="mt-3 text-sm">💡 <MathInline>{c.trick}</MathInline></p></div>
           </div>
         </div>
       </button>

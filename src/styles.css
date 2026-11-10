@@ -151,6 +151,9 @@
 }
 .lumi-rich .katex-display .katex { font-size: 1.35em; color: var(--sun) }
 
+.lumi-inline .katex { font-size: 1.1em }
+.lumi-inline strong { font-weight: 800 }
+
 /* 3D flashcard */
 .flip { perspective: 1200px }
 .flip-inner { transition: transform .6s; transform-style: preserve-3d; position: relative }

@@ -13,3 +13,18 @@ export function MathText({ children, className }: { children: string; className?
     </div>
   );
 }
+
+/** Same formula rendering for short one-line text (quiz questions, options, flashcards). */
+export function MathInline({ children, className }: { children: string; className?: string }) {
+  return (
+    <span className={cn("lumi-inline", className)}>
+      <ReactMarkdown
+        remarkPlugins={[remarkMath]}
+        rehypePlugins={[rehypeKatex]}
+        components={{ p: ({ children: c }) => <>{c}</> }}
+      >
+        {String(children ?? "").replace(/\$\$([\s\S]+?)\$\$/g, "$$$1$$")}
+      </ReactMarkdown>
+    </span>
+  );
+}
