@@ -51,7 +51,7 @@ export function SignIn() {
     <div className="mx-auto flex max-w-md flex-col items-center gap-4 pt-4 text-center">
       <Lumi mood="happy" size={150} />
       <h1 className="text-4xl font-bold">Hi<span className="text-lumi-blue">Lumi</span></h1>
-      <p className="text-muted-foreground">Guru bayangan AI untuk siswa SMP se-Kota Bandung. Progresmu tersimpan aman di akunmu.</p>
+      <p className="text-muted-foreground">Guru bayangan AI untuk siswa sekolah yang keren dan unik !!!</p>
       <div className="glass w-full space-y-4 rounded-3xl p-5 text-left">
         <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">
           {(["masuk", "daftar"] as const).map((m) => (
