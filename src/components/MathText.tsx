@@ -8,7 +8,7 @@ export function MathText({ children, className }: { children: string; className?
   return (
     <div className={cn("lumi-rich", className)}>
       <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-        {children}
+        {children.replace(/^[ \t]*\$([^$\n]+)\$[ \t]*$/gm, "\n$$$$\n$1\n$$$$\n")}
       </ReactMarkdown>
     </div>
   );

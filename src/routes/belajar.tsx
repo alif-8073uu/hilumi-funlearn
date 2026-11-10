@@ -7,6 +7,8 @@ import { Lumi } from "@/components/Lumi";
 import { Button } from "@/components/ui/button";
 import { MaterialForm } from "@/components/MaterialForm";
 import { VoiceButton } from "@/components/VoiceButton";
+import { MathText } from "@/components/MathText";
+import { SpeakButton } from "@/components/SpeakButton";
 import { chatLumi } from "@/lib/ai.functions";
 import { buildMaterial } from "@/lib/extract";
 import { actions } from "@/lib/store";
@@ -87,8 +89,17 @@ function Belajar() {
         )}
         {msgs.map((m, i) => (
           <div key={i} className={m.role === "user" ? "ml-auto max-w-[85%] rounded-3xl rounded-br-md bg-lumi px-4 py-3 text-primary-foreground" : "flex max-w-[95%] gap-2"}>
-            {m.role === "assistant" && <div className="shrink-0"><Lumi mood="happy" size={36} /></div>}
-            <div className="whitespace-pre-wrap">{m.text}</div>
+            {m.role === "user" ? (
+              <div className="whitespace-pre-wrap">{m.text}</div>
+            ) : (
+              <>
+                <div className="shrink-0"><Lumi mood="happy" size={36} /></div>
+                <div className="glass min-w-0 flex-1 rounded-3xl rounded-tl-md px-4 py-3">
+                  <MathText>{m.text}</MathText>
+                  <SpeakButton text={m.text} className="mt-3" />
+                </div>
+              </>
+            )}
           </div>
         ))}
         {busy && <div className="flex items-center gap-2 text-muted-foreground"><Lumi mood="thinking" size={36} /> Lumi sedang berpikir…</div>}
