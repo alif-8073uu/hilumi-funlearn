@@ -8,5 +8,5 @@
 # Migration into this project
 - [x] Copy app, recreate database structure, enable email + Google sign-in.
 - [ ] Import existing students and data — waiting on exports from the old project.
-- [ ] Admin panel code — waiting on the admin code being entered.
+- [x] Admin panel code saved.
 - [ ] Signed-in check (progress saving, invited quiz) — waiting on a real account signing in.
