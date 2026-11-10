@@ -1,0 +1,120 @@
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="anim-float" viewBox="-20 -35 260 325" width="200" height="230">
+          <style>
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes egg-wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-6deg) scale(1.02); }
+  75% { transform: rotate(6deg) scale(0.98); }
+}
+
+@keyframes tentacle-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+@keyframes super-aura {
+  0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(180deg); }
+  100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes sparkle-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-float { animation: float 3.5s ease-in-out infinite; }
+.anim-egg { animation: egg-wobble 2.2s ease-in-out infinite; }
+.anim-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+.anim-super { animation: super-aura 6s linear infinite; }
+.anim-sparkle { animation: sparkle-rotate 12s linear infinite; }
+
+.eye-blink {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: blink 4s infinite;
+}
+
+.tentacle {
+  transform-origin: top center;
+  transform-box: fill-box;
+  animation: tentacle-sway var(--speed, 2.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style><defs>
+            <linearGradient id="superGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff4b4b"/>
+              <stop offset="30%" stop-color="#a855f7"/>
+              <stop offset="70%" stop-color="#3b82f6"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+            <filter id="superGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="12" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+          <!-- Cosmic God Aura Rotating -->
+          <g class="anim-super" transform-origin="110 110">
+            <circle cx="110" cy="110" r="95" fill="none" stroke="url(#superGrad)" stroke-width="6" stroke-dasharray="12 8" opacity="0.8"/>
+            <polygon points="110,5 125,30 95,30" fill="#fbbf24"/>
+            <polygon points="215,110 190,125 190,95" fill="#ec4899"/>
+            <polygon points="110,215 95,190 125,190" fill="#38bdf8"/>
+            <polygon points="5,110 30,95 30,125" fill="#a855f7"/>
+          </g>
+          <!-- Radiant Particle Stars -->
+          <g class="anim-sparkle" transform-origin="110 110">
+            <text x="15" y="35" fill="#fff" font-size="20">✨</text>
+            <text x="185" y="45" fill="#fbbf24" font-size="22">✦</text>
+            <text x="25" y="195" fill="#ec4899" font-size="22">✦</text>
+            <text x="180" y="190" fill="#38bdf8" font-size="20">✨</text>
+          </g>
+          <!-- Celestial Divine Tentacles -->
+          <g>
+            <path class="tentacle" style="--delay:0s;" d="M35,140 C5,190 40,230 25,260" fill="none" stroke="#ec4899" stroke-width="10" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.2s;" d="M65,145 C45,200 75,235 65,265" fill="none" stroke="#a855f7" stroke-width="9" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.4s;" d="M95,150 C85,205 105,240 95,270" fill="none" stroke="#3b82f6" stroke-width="10" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.6s;" d="M125,150 C135,205 115,240 125,270" fill="none" stroke="#3b82f6" stroke-width="10" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:0.8s;" d="M155,145 C175,200 145,235 155,265" fill="none" stroke="#a855f7" stroke-width="9" stroke-linecap="round"/>
+            <path class="tentacle" style="--delay:1.0s;" d="M185,140 C215,190 180,230 195,260" fill="none" stroke="#ec4899" stroke-width="10" stroke-linecap="round"/>
+          </g>
+          <!-- God Shell Body -->
+          <path d="M25,100 C25,10 55,0 110,0 C165,0 195,10 195,100 C195,140 165,142 140,132 C122,124 98,124 80,132 C55,142 25,140 25,100 Z" 
+                fill="url(#superGrad)" stroke="#ffffff" stroke-width="4" filter="url(#superGlow)"/>
+
+          <!-- Supreme God Crown -->
+          <path d="M70,10 L90,-20 L110,-5 L130,-20 L150,10 Z" fill="#fbbf24" stroke="#fff" stroke-width="2"/>
+          <circle cx="110" cy="-18" r="6" fill="#ec4899"/>
+          
+          <!-- Glowing Divine Eyes -->
+          <g class="eye-blink">
+            <circle cx="78" cy="68" r="11" fill="#fff"/>
+            <circle cx="78" cy="68" r="5.5" fill="#0f172a"/>
+            <circle cx="80" cy="66" r="2" fill="#fff"/>
+            <circle cx="142" cy="68" r="11" fill="#fff"/>
+            <circle cx="142" cy="68" r="5.5" fill="#0f172a"/>
+            <circle cx="144" cy="66" r="2" fill="#fff"/>
+          </g>
+
+          <!-- Clean Divine Smile -->
+          <path d="M92,92 Q110,108 128,92" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M88,91 L92,95 M132,91 L128,95" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="70" cy="84" rx="7" ry="4" fill="#ff769c" opacity="0.6"/>
+          <ellipse cx="150" cy="84" rx="7" ry="4" fill="#ff769c" opacity="0.6"/>
+        </svg>
+      

@@ -1,0 +1,86 @@
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="anim-egg" viewBox="-20 -35 260 325" width="180" height="210">
+          <style>
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes egg-wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-6deg) scale(1.02); }
+  75% { transform: rotate(6deg) scale(0.98); }
+}
+
+@keyframes tentacle-sway {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+@keyframes super-aura {
+  0% { transform: rotate(0deg) scale(1); filter: hue-rotate(0deg); }
+  50% { transform: rotate(180deg) scale(1.15); filter: hue-rotate(180deg); }
+  100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+}
+
+@keyframes sparkle-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-float { animation: float 3.5s ease-in-out infinite; }
+.anim-egg { animation: egg-wobble 2.2s ease-in-out infinite; }
+.anim-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+.anim-super { animation: super-aura 6s linear infinite; }
+.anim-sparkle { animation: sparkle-rotate 12s linear infinite; }
+
+.eye-blink {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: blink 4s infinite;
+}
+
+.tentacle {
+  transform-origin: top center;
+  transform-box: fill-box;
+  animation: tentacle-sway var(--speed, 2.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}</style><defs>
+            <radialGradient id="eggGrad" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#e2e8f0"/>
+              <stop offset="50%" stop-color="#94a3b8"/>
+              <stop offset="100%" stop-color="#475569"/>
+            </radialGradient>
+            <radialGradient id="eggGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Shadow -->
+          <ellipse cx="100" cy="210" rx="45" ry="10" fill="#000" opacity="0.4"/>
+          <!-- Glow Inner -->
+          <circle cx="100" cy="115" r="55" fill="url(#eggGlow)" class="anim-pulse"/>
+          <!-- Egg Body -->
+          <path d="M100,35 C145,35 165,85 165,125 C165,165 138,200 100,200 C62,200 35,165 35,125 C35,85 55,35 100,35 Z" 
+                fill="url(#eggGrad)" stroke="#cbd5e1" stroke-width="4"/>
+          <!-- Cracks with Glowing Blue Light -->
+          <path d="M90,70 L105,90 L95,110 L115,130" stroke="#38bdf8" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M115,130 L130,140" stroke="#38bdf8" stroke-width="3" fill="none"/>
+          <!-- Highlights -->
+          <ellipse cx="75" cy="70" rx="12" ry="25" fill="#ffffff" opacity="0.4" transform="rotate(-25 75 70)"/>
+          <circle cx="65" cy="100" r="4" fill="#fff" opacity="0.3"/>
+          <text x="100" y="235" font-size="12" font-weight="800" fill="#94a3b8" text-anchor="middle">Menetas Hari ke-3</text>
+        </svg>
+      
