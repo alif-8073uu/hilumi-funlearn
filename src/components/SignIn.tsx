@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { Lumi } from "./Lumi";
+import { AboutHiLumi } from "./AboutHiLumi";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -80,6 +81,7 @@ export function SignIn() {
         <p className="text-center text-xs text-muted-foreground">Pengguna HiLumi lama? Masuk atau daftar, lalu buka <b>Profil → Pulihkan progres lama</b>.</p>
       </div>
       <Link to="/admin" className="text-sm text-muted-foreground underline">Masuk sebagai Admin</Link>
+      <AboutHiLumi />
     </div>
   );
 }
