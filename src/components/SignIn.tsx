@@ -27,18 +27,23 @@ export function SignIn() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    setTaken(false);
     try {
       if (mode === "daftar") {
         const { data, error } = await supabase.auth.signUp({ email, password: pass, options: { emailRedirectTo: window.location.origin, data: { nick: nick.trim().slice(0, 20) } } });
         if (error) {
           const msg = error.message.toLowerCase();
-          if (error.code === "user_already_exists" || msg.includes("already registered") || msg.includes("already exists")) throw new Error("Email ini sudah terdaftar. Silakan pilih Masuk.");
-          if (error.code === "weak_password" || msg.includes("password")) throw new Error("Kata sandi terlalu pendek, coba minimal 6 karakter.");
+          if (error.code === "user_already_exists" || error.code === "email_exists" || msg.includes("already registered") || msg.includes("already exists")) { setTaken(true); throw new Error(TAKEN); }
+          if (error.code === "weak_password" || msg.includes("password")) throw new Error("Kata sandi terlalu lemah. Pakai minimal 6 karakter yang tidak mudah ditebak.");
+          if (error.code === "email_address_invalid" || msg.includes("email address")) throw new Error("Alamat email tidak valid.");
           throw error;
         }
-        if (data.user && (data.user.identities?.length ?? 0) === 0) throw new Error("Email ini sudah terdaftar. Silakan pilih Masuk.");
-        if (data.session) toast.success("Akun berhasil dibuat, selamat datang!");
-        else setSent(true);
+        if (data.user && (data.user.identities?.length ?? 0) === 0) { setTaken(true); throw new Error(TAKEN); }
+        if (!data.session) {
+          const { error: e2 } = await supabase.auth.signInWithPassword({ email, password: pass });
+          if (e2) throw new Error("Akun dibuat, tapi gagal masuk. Coba pilih Masuk.");
+        }
+        toast.success("Akun berhasil dibuat, selamat datang!");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
         if (error) throw new Error("Email atau kata sandi salah.");
