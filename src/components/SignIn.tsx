@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
+import { ChevronDown, Eye, EyeOff } from "lucide-react";
 import { Lumi } from "./Lumi";
 import { AboutHiLumi } from "./AboutHiLumi";
 import { Button } from "./ui/button";
@@ -19,6 +19,19 @@ export function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [taken, setTaken] = useState(false);
+  const [showHint, setShowHint] = useState(true);
+
+  // Hide the floating "Kenalan yuk" pill once the Tentang section is on screen.
+  useEffect(() => {
+    const section = document.getElementById("tentang-hilumi")?.closest("section");
+    if (!section) return;
+    const io = new IntersectionObserver(
+      (entries) => setShowHint(!entries[0]?.isIntersecting),
+      { threshold: 0.08 },
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -81,6 +94,15 @@ export function SignIn() {
         <p className="text-center text-xs text-muted-foreground">Pengguna HiLumi lama? Masuk atau daftar, lalu buka <b>Profil → Pulihkan progres lama</b>.</p>
       </div>
       <Link to="/admin" className="text-sm text-muted-foreground underline">Masuk sebagai Admin</Link>
+      {showHint && (
+        <button
+          type="button"
+          onClick={() => document.getElementById("tentang-hilumi")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          className="fixed bottom-4 right-3 z-50 rounded-full bg-lumi px-4 py-2 text-xs font-bold text-primary-foreground shadow-glow"
+        >
+          Kenalan yuk <ChevronDown className="inline h-3.5 w-3.5 animate-bounce" />
+        </button>
+      )}
       <AboutHiLumi />
     </div>
   );

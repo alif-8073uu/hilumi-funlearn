@@ -1,5 +1,5 @@
 import { useId, type CSSProperties, type ReactNode } from "react";
-import { Bot, FileUp, Layers, Swords, Flame, Sparkles, Target, Cpu, ChevronDown } from "lucide-react";
+import { Bot, FileUp, Layers, Swords, Flame, Sparkles, Target, Cpu } from "lucide-react";
 import { Lumi } from "./Lumi";
 
 type Tone = "primary" | "accent" | "sun" | "lumi-blue" | "coral" | "success";
@@ -79,11 +79,6 @@ export function AboutHiLumi() {
       ))}
 
       <div className="relative z-10 mx-auto max-w-md space-y-10 px-2">
-        <div className="flex flex-col items-center gap-1 text-muted-foreground">
-          <span className="text-xs font-bold uppercase tracking-[0.3em]">Kenalan yuk</span>
-          <ChevronDown className="h-5 w-5 animate-bounce" />
-        </div>
-
         {/* Tentang */}
         <div className="about-reveal space-y-4 text-center">
           <Heading><span id="tentang-hilumi">Tentang HiLumi</span></Heading>
