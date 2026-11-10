@@ -36,7 +36,7 @@ export function SignIn() {
         if (error) {
           const msg = error.message.toLowerCase();
           if (error.code === "user_already_exists" || error.code === "email_exists" || msg.includes("already registered") || msg.includes("already exists")) { setTaken(true); throw new Error(TAKEN); }
-          if (error.code === "weak_password" || msg.includes("password")) throw new Error("Kata sandi terlalu lemah. Pakai minimal 6 karakter yang tidak mudah ditebak.");
+          if (msg.includes("at least")) throw new Error("Kata sandi minimal 6 karakter.");
           if (error.code === "email_address_invalid" || msg.includes("email address")) throw new Error("Alamat email tidak valid.");
           throw error;
         }
