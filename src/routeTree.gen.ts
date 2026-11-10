@@ -16,7 +16,6 @@ import { Route as FlashcardRouteImport } from './routes/flashcard'
 import { Route as KuisRouteImport } from './routes/kuis'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as TemanRouteImport } from './routes/teman'
-import { Route as ApiSpeakRouteImport } from './routes/api/speak'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 
 const IndexRoute = IndexRouteImport.update({
@@ -54,11 +53,6 @@ const TemanRoute = TemanRouteImport.update({
   path: '/teman',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiSpeakRoute = ApiSpeakRouteImport.update({
-  id: '/api/speak',
-  path: '/api/speak',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiTranscribeRoute = ApiTranscribeRouteImport.update({
   id: '/api/transcribe',
   path: '/api/transcribe',
@@ -73,7 +67,6 @@ export interface FileRoutesByFullPath {
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
   '/teman': typeof TemanRoute
-  '/api/speak': typeof ApiSpeakRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesByTo {
@@ -84,7 +77,6 @@ export interface FileRoutesByTo {
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
   '/teman': typeof TemanRoute
-  '/api/speak': typeof ApiSpeakRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRoutesById {
@@ -96,7 +88,6 @@ export interface FileRoutesById {
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
   '/teman': typeof TemanRoute
-  '/api/speak': typeof ApiSpeakRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
 export interface FileRouteTypes {
@@ -109,7 +100,6 @@ export interface FileRouteTypes {
     | '/kuis'
     | '/profil'
     | '/teman'
-    | '/api/speak'
     | '/api/transcribe'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -120,7 +110,6 @@ export interface FileRouteTypes {
     | '/kuis'
     | '/profil'
     | '/teman'
-    | '/api/speak'
     | '/api/transcribe'
   id:
     | '__root__'
@@ -131,7 +120,6 @@ export interface FileRouteTypes {
     | '/kuis'
     | '/profil'
     | '/teman'
-    | '/api/speak'
     | '/api/transcribe'
   fileRoutesById: FileRoutesById
 }
@@ -143,7 +131,6 @@ export interface RootRouteChildren {
   KuisRoute: typeof KuisRoute
   ProfilRoute: typeof ProfilRoute
   TemanRoute: typeof TemanRoute
-  ApiSpeakRoute: typeof ApiSpeakRoute
   ApiTranscribeRoute: typeof ApiTranscribeRoute
 }
 
@@ -198,13 +185,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TemanRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/speak': {
-      id: '/api/speak'
-      path: '/api/speak'
-      fullPath: '/api/speak'
-      preLoaderRoute: typeof ApiSpeakRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/transcribe': {
       id: '/api/transcribe'
       path: '/api/transcribe'
@@ -223,7 +203,6 @@ const rootRouteChildren: RootRouteChildren = {
   KuisRoute: KuisRoute,
   ProfilRoute: ProfilRoute,
   TemanRoute: TemanRoute,
-  ApiSpeakRoute: ApiSpeakRoute,
   ApiTranscribeRoute: ApiTranscribeRoute,
 }
 export const routeTree = rootRouteImport
