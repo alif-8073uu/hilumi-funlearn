@@ -94,6 +94,15 @@ export function SignIn() {
         <p className="text-center text-xs text-muted-foreground">Pengguna HiLumi lama? Masuk atau daftar, lalu buka <b>Profil → Pulihkan progres lama</b>.</p>
       </div>
       <Link to="/admin" className="text-sm text-muted-foreground underline">Masuk sebagai Admin</Link>
+      {showHint && (
+        <button
+          type="button"
+          onClick={() => document.getElementById("tentang-hilumi")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-full bg-lumi px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-glow"
+        >
+          Kenalan yuk <ChevronDown className="inline h-4 w-4 animate-bounce" />
+        </button>
+      )}
       <AboutHiLumi />
     </div>
   );
