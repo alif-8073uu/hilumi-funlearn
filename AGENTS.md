@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- HiLumi game rules (ranks, streaks, quiz limits, duel points) live as pure functions in src/lib/game.ts with tests in src/test/game.test.ts — keeps rules testable and in one place.
+- Student progress is saved as one JSON blob in public.profiles.progress (synced by src/lib/store.ts, debounced); AI calls go through server functions in src/lib/ai.functions.ts so the AI key stays server-side.
+- Shared membership, quiz invitations, answer grading and streak advancement use authenticated database RPCs with separate cloud records; no simulated friend participation or answer keys are exposed before submission.
+- Uploaded pet SVG artwork is transformed into standalone local assets; evolution thresholds remain in the pure game rules rather than in the art.
+- Voice input records a complete WAV in the browser and posts it to the signed-in-only server route /api/transcribe, which streams the AI transcript back — keeps the AI key server-side and audio decodable on every browser.
+- Users imported from the previous app live in public.legacy_users (service-role only); claim_legacy_profile() RPC moves their progress and memberships to the new account only after auth.users.email_confirmed_at is set — never trust client-supplied identity for this.
