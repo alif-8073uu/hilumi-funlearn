@@ -62,8 +62,8 @@ export function SignIn() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-3 pt-1 text-center">
-      <Lumi mood="happy" size={112} />
+    <div className="mx-auto flex max-w-md flex-col items-center gap-2 pt-1 text-center sm:gap-3">
+      <Lumi mood="happy" size={112} className="h-[104px] w-[81px] sm:h-[143px] sm:w-[112px]" />
       <h1 className="text-4xl font-bold">Hi<span className="text-lumi-blue">Lumi</span></h1>
       <p className="text-muted-foreground">Guru bayangan AI untuk siswa sekolah yang keren dan unik !!!</p>
       <div className="glass w-full space-y-4 rounded-3xl p-5 text-left">
