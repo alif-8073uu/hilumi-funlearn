@@ -1,8 +1,10 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { ReactNode } from "react";
 
 const auth = vi.hoisted(() => ({ getUser: vi.fn(), updateUser: vi.fn(), onAuthStateChange: vi.fn() }));
 vi.mock("@/integrations/supabase/client", () => ({ supabase: { auth } }));
+vi.mock("@tanstack/react-router", () => ({ Link: ({ children }: { children: ReactNode }) => <a href="/">{children}</a> }));
 import { ResetPassword } from "@/components/ResetPassword";
 
 afterEach(() => { cleanup(); vi.restoreAllMocks(); window.history.replaceState(null, "", "/"); });
@@ -17,6 +19,7 @@ describe("Password reset form", () => {
     render(<ResetPassword />);
     await screen.findByRole("button", { name: "Ubah password" });
     const inputs = document.querySelectorAll('input[autocomplete="new-password"]');
+    if (!inputs[0] || !inputs[1]) throw new Error("Password fields missing");
     fireEvent.change(inputs[0], { target: { value: "newpass123" } });
     fireEvent.change(inputs[1], { target: { value: "newpass123" } });
     fireEvent.change(screen.getByLabelText("Jawaban perkalian"), { target: { value: "48" } });
