@@ -23,6 +23,7 @@ export function MaterialForm({ text, setText, files, setFiles, children, placeho
           </span>
         ))}
       </div>
+      <p className="text-[11px] font-semibold text-muted-foreground">📎 Ukuran file maksimal 8 MB · paling banyak 4 file</p>
       {children}
     </div>
   );
