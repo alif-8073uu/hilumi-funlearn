@@ -70,14 +70,14 @@ async function loadProfile(uid: string, email: string, signupVersion?: unknown) 
 function start() {
   if (started || typeof window === "undefined") return;
   started = true;
-  window.addEventListener("focus", () => { if (state.uid && state.user) { clearTimeout(saveTimer); supabase.auth.getUser().then(({ data }) => { if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.onboarding_version); }); } });
+  window.addEventListener("focus", () => { if (state.uid && state.user) { clearTimeout(saveTimer); supabase.auth.getUser().then(({ data }) => { if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.["onboarding_version"]); }); } });
   supabase.auth.getUser().then(({ data }) => {
-    if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.onboarding_version);
+    if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.["onboarding_version"]);
     else { state = { ...initial, authReady: true }; emit(); }
   });
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN" && session?.user && session.user.id !== state.uid) {
-      setTimeout(() => loadProfile(session.user.id, session.user.email ?? "", session.user.user_metadata?.onboarding_version), 0);
+      setTimeout(() => loadProfile(session.user.id, session.user.email ?? "", session.user.user_metadata?.["onboarding_version"]), 0);
     }
     if (event === "SIGNED_OUT") { state = { ...initial, authReady: true }; emit(); }
   });
