@@ -15,6 +15,7 @@ import { Route as BelajarRouteImport } from './routes/belajar'
 import { Route as FlashcardRouteImport } from './routes/flashcard'
 import { Route as KuisRouteImport } from './routes/kuis'
 import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TemanRouteImport } from './routes/teman'
 import { Route as ApiTranscribeRouteImport } from './routes/api/transcribe'
 
@@ -48,6 +49,11 @@ const ProfilRoute = ProfilRouteImport.update({
   path: '/profil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TemanRoute = TemanRouteImport.update({
   id: '/teman',
   path: '/teman',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/flashcard': typeof FlashcardRoute
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/teman': typeof TemanRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/flashcard': typeof FlashcardRoute
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/teman': typeof TemanRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/flashcard': typeof FlashcardRoute
   '/kuis': typeof KuisRoute
   '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/teman': typeof TemanRoute
   '/api/transcribe': typeof ApiTranscribeRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/flashcard'
     | '/kuis'
     | '/profil'
+    | '/reset-password'
     | '/teman'
     | '/api/transcribe'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/flashcard'
     | '/kuis'
     | '/profil'
+    | '/reset-password'
     | '/teman'
     | '/api/transcribe'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/flashcard'
     | '/kuis'
     | '/profil'
+    | '/reset-password'
     | '/teman'
     | '/api/transcribe'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   FlashcardRoute: typeof FlashcardRoute
   KuisRoute: typeof KuisRoute
   ProfilRoute: typeof ProfilRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TemanRoute: typeof TemanRoute
   ApiTranscribeRoute: typeof ApiTranscribeRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/teman': {
       id: '/teman'
       path: '/teman'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   FlashcardRoute: FlashcardRoute,
   KuisRoute: KuisRoute,
   ProfilRoute: ProfilRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TemanRoute: TemanRoute,
   ApiTranscribeRoute: ApiTranscribeRoute,
 }
