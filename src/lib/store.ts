@@ -2,6 +2,7 @@ import { useSyncExternalStore } from "react";
 import { activateStreak, addQuizHistory, evaluateStreak, newStreak, recoverStreak, type QuizRecord, type Streak } from "./game";
 import type { Card } from "./ai.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { shouldShowOnboarding } from "./onboarding";
 
 export type Friend = { id: string; nick: string; duoStreak: number; theyDueledToday: boolean; lastDuoDay: string };
 export type ChatMsg = { from: "me" | "them"; text: string; at: number };
@@ -18,10 +19,12 @@ export type State = {
   decks: Deck[];
   myDuelDay: string;
   quizHistory: QuizRecord[];
+  onboardingPending: boolean;
+  onboardingCompleted: boolean;
 };
-type Progress = Pick<State, "xp" | "streak" | "friends" | "chats" | "decks" | "myDuelDay" | "quizHistory">;
+type Progress = Pick<State, "xp" | "streak" | "friends" | "chats" | "decks" | "myDuelDay" | "quizHistory" | "onboardingCompleted">;
 
-const initial: State = { authReady: false, uid: null, user: null, xp: 0, streak: newStreak(), friends: [], chats: {}, decks: [], myDuelDay: "", quizHistory: [] };
+const initial: State = { authReady: false, uid: null, user: null, xp: 0, streak: newStreak(), friends: [], chats: {}, decks: [], myDuelDay: "", quizHistory: [], onboardingPending: false, onboardingCompleted: false };
 let state: State = initial;
 const subs = new Set<() => void>();
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -30,7 +33,7 @@ let started = false;
 function emit() { subs.forEach((f) => f()); }
 
 function progressOf(s: State): Progress {
-  return { xp: s.xp, streak: s.streak, friends: s.friends, chats: s.chats, decks: s.decks, myDuelDay: s.myDuelDay, quizHistory: s.quizHistory };
+  return { xp: s.xp, streak: s.streak, friends: s.friends, chats: s.chats, decks: s.decks, myDuelDay: s.myDuelDay, quizHistory: s.quizHistory, onboardingCompleted: s.onboardingCompleted };
 }
 
 function scheduleSave() {
@@ -43,7 +46,7 @@ function scheduleSave() {
   }, 600);
 }
 
-async function loadProfile(uid: string, email: string) {
+async function loadProfile(uid: string, email: string, signupVersion?: unknown) {
   // Returning users from the previous app: reclaim imported progress once the email is verified (checked server-side).
   try { await supabase.rpc("claim_legacy_profile"); } catch (e) { console.error("Gagal memulihkan akun lama", e); }
   let { data } = await supabase.from("profiles").select("nick, lumi_id, progress").eq("id", uid).maybeSingle();
@@ -57,6 +60,7 @@ async function loadProfile(uid: string, email: string) {
     ...p,
     streak: evaluateStreak({ ...newStreak(), ...(p.streak ?? {}) }, Date.now()),
     authReady: true,
+    onboardingPending: shouldShowOnboarding(signupVersion, p.onboardingCompleted),
     uid,
     user: { nick: data?.nick ?? "Pelajar", id: data?.lumi_id ?? "#LUMI-0000", email },
   };
@@ -66,14 +70,14 @@ async function loadProfile(uid: string, email: string) {
 function start() {
   if (started || typeof window === "undefined") return;
   started = true;
-  window.addEventListener("focus", () => { if (state.uid && state.user) { clearTimeout(saveTimer); loadProfile(state.uid, state.user.email); } });
+  window.addEventListener("focus", () => { if (state.uid && state.user) { clearTimeout(saveTimer); supabase.auth.getUser().then(({ data }) => { if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.["onboarding_version"]); }); } });
   supabase.auth.getUser().then(({ data }) => {
-    if (data.user) loadProfile(data.user.id, data.user.email ?? "");
+    if (data.user) loadProfile(data.user.id, data.user.email ?? "", data.user.user_metadata?.["onboarding_version"]);
     else { state = { ...initial, authReady: true }; emit(); }
   });
   supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN" && session?.user && session.user.id !== state.uid) {
-      setTimeout(() => loadProfile(session.user.id, session.user.email ?? ""), 0);
+      setTimeout(() => loadProfile(session.user.id, session.user.email ?? "", session.user.user_metadata?.["onboarding_version"]), 0);
     }
     if (event === "SIGNED_OUT") { state = { ...initial, authReady: true }; emit(); }
   });
@@ -96,6 +100,7 @@ export function useStore<T>(sel: (s: State) => T): T {
 export const today = () => new Date().toDateString();
 
 export const actions = {
+  finishOnboarding: () => setState((s) => ({ ...s, onboardingPending: false, onboardingCompleted: true })),
   signOut: async () => { clearTimeout(saveTimer); await supabase.auth.signOut(); },
   setNick: (nick: string) => setState((s) => (s.user ? { ...s, user: { ...s.user, nick } } : s)),
   addXp: (n: number) => setState((s) => ({ ...s, xp: s.xp + Math.max(0, Math.round(n)) })),
