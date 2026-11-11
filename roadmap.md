@@ -10,3 +10,5 @@
 - [ ] Import existing students and data — waiting on exports from the old project.
 - [x] Admin panel code saved.
 - [ ] Signed-in check (progress saving, invited quiz) — waiting on a real account signing in.
+- [x] Quiz review (all modes), instant right/wrong, live score, quiz history.
+- [ ] Live group quiz with two real accounts — needs a second member to play.

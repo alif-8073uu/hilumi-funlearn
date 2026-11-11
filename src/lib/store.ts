@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import { activateStreak, evaluateStreak, newStreak, recoverStreak, type Streak } from "./game";
+import { activateStreak, addQuizHistory, evaluateStreak, newStreak, recoverStreak, type QuizRecord, type Streak } from "./game";
 import type { Card } from "./ai.functions";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -17,10 +17,11 @@ export type State = {
   chats: Record<string, ChatMsg[]>;
   decks: Deck[];
   myDuelDay: string;
+  quizHistory: QuizRecord[];
 };
-type Progress = Pick<State, "xp" | "streak" | "friends" | "chats" | "decks" | "myDuelDay">;
+type Progress = Pick<State, "xp" | "streak" | "friends" | "chats" | "decks" | "myDuelDay" | "quizHistory">;
 
-const initial: State = { authReady: false, uid: null, user: null, xp: 0, streak: newStreak(), friends: [], chats: {}, decks: [], myDuelDay: "" };
+const initial: State = { authReady: false, uid: null, user: null, xp: 0, streak: newStreak(), friends: [], chats: {}, decks: [], myDuelDay: "", quizHistory: [] };
 let state: State = initial;
 const subs = new Set<() => void>();
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -29,7 +30,7 @@ let started = false;
 function emit() { subs.forEach((f) => f()); }
 
 function progressOf(s: State): Progress {
-  return { xp: s.xp, streak: s.streak, friends: s.friends, chats: s.chats, decks: s.decks, myDuelDay: s.myDuelDay };
+  return { xp: s.xp, streak: s.streak, friends: s.friends, chats: s.chats, decks: s.decks, myDuelDay: s.myDuelDay, quizHistory: s.quizHistory };
 }
 
 function scheduleSave() {
@@ -108,5 +109,6 @@ export const actions = {
   })),
   addFriend: (f: { id: string; nick: string }) => setState((s) => (s.friends.some((x) => x.id === f.id) ? s : { ...s, friends: [...s.friends, { ...f, duoStreak: 0, theyDueledToday: true, lastDuoDay: "" }] })),
   sendChat: (id: string, text: string, from: "me" | "them" = "me") => setState((s) => ({ ...s, chats: { ...s.chats, [id]: [...(s.chats[id] ?? []), { from, text, at: Date.now() }] } })),
+  saveQuiz: (r: QuizRecord) => setState((s) => ({ ...s, quizHistory: addQuizHistory(s.quizHistory ?? [], r) })),
   saveDeck: (d: Deck) => setState((s) => ({ ...s, decks: [d, ...s.decks.filter((x) => x.id !== d.id)] })),
 };

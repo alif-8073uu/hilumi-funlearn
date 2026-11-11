@@ -72,3 +72,21 @@ describe("Lumi evolution", () => {
     expect(sharedStreakComplete(true, [true,true,true])).toBe(true);
   });
 });
+
+import { reviewSummary, addQuizHistory, type QuizRecord } from "@/lib/game";
+describe("quiz review", () => {
+  const item = (answer: number, picked: number | null) => ({ q: "?", options: ["a", "b", "c", "d"], answer, explain: "", picked });
+  it("counts correct, wrong and unanswered questions", () => {
+    expect(reviewSummary([item(0, 0), item(1, 2), item(3, null), item(2, 2)])).toEqual({ correct: 2, wrong: 1, skipped: 1, score: 50 });
+  });
+  it("keeps the 10 newest quizzes and replaces a re-saved quiz", () => {
+    const rec = (id: string): QuizRecord => ({ id, title: id, mode: "solo", at: 0, items: [] });
+    let list: QuizRecord[] = [];
+    for (let k = 0; k < 12; k++) list = addQuizHistory(list, rec(`q${k}`));
+    expect(list).toHaveLength(10);
+    expect(list[0]?.id).toBe("q11");
+    list = addQuizHistory(list, rec("q5"));
+    expect(list.filter((r) => r.id === "q5")).toHaveLength(1);
+    expect(list[0]?.id).toBe("q5");
+  });
+});

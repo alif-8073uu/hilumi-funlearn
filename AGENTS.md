@@ -31,7 +31,8 @@ use the editor.
 
 - HiLumi game rules (ranks, streaks, quiz limits, duel points) live as pure functions in src/lib/game.ts with tests in src/test/game.test.ts — keeps rules testable and in one place.
 - Student progress is saved as one JSON blob in public.profiles.progress (synced by src/lib/store.ts, debounced); AI calls go through server functions in src/lib/ai.functions.ts so the AI key stays server-side.
-- Shared membership, quiz invitations, answer grading and streak advancement use authenticated database RPCs with separate cloud records; no simulated friend participation or answer keys are exposed before submission.
+- Shared membership, quiz invitations, answer grading and streak advancement use authenticated database RPCs with separate cloud records; each answer is locked and graded per question by answer_streak_quiz (key revealed only for that locked question), choices live in a private table, and the live score reads shared_quiz_players over realtime.
+- Quiz review history (last 10, all modes) is stored in the progress blob as quizHistory; rules in src/lib/game.ts.
 - Uploaded pet SVG artwork is transformed into standalone local assets; evolution thresholds remain in the pure game rules rather than in the art.
 - Voice input records a complete WAV in the browser and posts it to the signed-in-only server route /api/transcribe, which streams the AI transcript back — keeps the AI key server-side and audio decodable on every browser.
 - Users imported from the previous app live in public.legacy_users (service-role only); claim_legacy_profile() RPC moves their progress and memberships to the new account only when email ownership is proven server-side (Google identity with the same email, or a session from an emailed link: JWT amr otp/magiclink/recovery) — sign-up auto-confirms emails, so email_confirmed_at proves nothing.
