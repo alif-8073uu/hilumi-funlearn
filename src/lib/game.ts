@@ -99,3 +99,15 @@ export function quizStandings<T extends { userId: string; points: number; comple
   return players.filter((p) => p.completed).sort((a, b) => b.points - a.points).map((p, _, all) => ({ ...p, place: 1 + all.filter((other) => other.points > p.points).length }));
 }
 export const sharedStreakComplete = (invited: boolean, completions: boolean[]) => invited && completions.length >= 2 && completions.every(Boolean);
+
+// Quiz review & history
+export type ReviewItem = { q: string; options: string[]; answer: number; explain: string; picked: number | null };
+export type QuizRecord = { id: string; title: string; mode: "solo" | "ai" | "grup"; at: number; items: ReviewItem[] };
+export const MAX_QUIZ_HISTORY = 10;
+export function reviewSummary(items: ReviewItem[]) {
+  const correct = items.filter((i) => i.picked === i.answer).length;
+  const skipped = items.filter((i) => i.picked == null).length;
+  return { correct, wrong: items.length - correct - skipped, skipped, score: items.length ? Math.round((correct / items.length) * 100) : 0 };
+}
+/** Newest first, one entry per quiz id, capped at MAX_QUIZ_HISTORY. */
+export const addQuizHistory = (list: QuizRecord[], rec: QuizRecord) => [rec, ...list.filter((r) => r.id !== rec.id)].slice(0, MAX_QUIZ_HISTORY);
