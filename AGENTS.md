@@ -35,3 +35,4 @@ use the editor.
 - Uploaded pet SVG artwork is transformed into standalone local assets; evolution thresholds remain in the pure game rules rather than in the art.
 - Voice input records a complete WAV in the browser and posts it to the signed-in-only server route /api/transcribe, which streams the AI transcript back — keeps the AI key server-side and audio decodable on every browser.
 - Users imported from the previous app live in public.legacy_users (service-role only); claim_legacy_profile() RPC moves their progress and memberships to the new account only when email ownership is proven server-side (Google identity with the same email, or a session from an emailed link: JWT amr otp/magiclink/recovery) — sign-up auto-confirms emails, so email_confirmed_at proves nothing.
+- Duo/group chat lives in public.streak_messages (members read, accepted members insert, realtime) and is deliberately separate from quiz/streak RPCs so chatting never advances a streak.

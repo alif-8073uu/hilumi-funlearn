@@ -15,6 +15,13 @@
       "when": 1794308636126,
       "tag": "0001_legacy_claim_requires_proven_email",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794388351425,
+      "tag": "0002_streak_chat",
+      "breakpoints": true
     }
   ]
 }
