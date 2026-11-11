@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronDown, Eye, EyeOff } from "lucide-react";
 import { Lumi } from "./Lumi";
 import { AboutHiLumi } from "./AboutHiLumi";
+import { ForgotPassword } from "./ForgotPassword";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -91,6 +92,7 @@ export function SignIn() {
           </div>
           <Button type="submit" disabled={busy} className="w-full bg-lumi text-primary-foreground shadow-glow">{mode === "masuk" ? "Masuk" : "Buat Akun"}</Button>
         </form>
+        {mode === "masuk" && <ForgotPassword initialEmail={email} />}
         <p className="text-center text-xs text-muted-foreground">Pengguna HiLumi lama? Masuk atau daftar, lalu buka <b>Profil → Pulihkan progres lama</b>.</p>
       </div>
       <Link to="/admin" className="text-sm text-muted-foreground underline">Masuk sebagai Admin</Link>
