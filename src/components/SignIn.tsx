@@ -62,8 +62,8 @@ export function SignIn() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col items-center gap-4 pt-4 text-center">
-      <Lumi mood="happy" size={150} />
+    <div className="mx-auto flex max-w-md flex-col items-center gap-2 pt-1 text-center sm:gap-3">
+      <Lumi mood="happy" size={112} className="h-[104px] w-[81px] sm:h-[143px] sm:w-[112px]" />
       <h1 className="text-4xl font-bold">Hi<span className="text-lumi-blue">Lumi</span></h1>
       <p className="text-muted-foreground">Guru bayangan AI untuk siswa sekolah yang keren dan unik !!!</p>
       <div className="glass w-full space-y-4 rounded-3xl p-5 text-left">
@@ -98,7 +98,7 @@ export function SignIn() {
         <button
           type="button"
           onClick={() => document.getElementById("tentang-hilumi")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-          className="fixed bottom-4 right-3 z-50 rounded-full bg-lumi px-4 py-2 text-xs font-bold text-primary-foreground shadow-glow"
+          className="fixed bottom-3 left-1/2 z-50 -translate-x-1/2 rounded-full bg-lumi px-4 py-1.5 text-sm font-bold text-primary-foreground shadow-glow"
         >
           Kenalan yuk <ChevronDown className="inline h-3.5 w-3.5 animate-bounce" />
         </button>
