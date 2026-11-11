@@ -1,4 +1,5 @@
 # HiLumi additions
+- [ ] Add email-link password recovery and test the 1–100 multiplication challenge.
 - [x] Add and verify a first-signup feature introduction with the existing Lumi mascot.
 - [x] Add varied quiz reactions and result ranks.
 - [x] Use uploaded jellyfish evolution art for individual and shared pets.
