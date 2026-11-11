@@ -39,7 +39,7 @@ export function SignIn() {
     setTaken(false);
     try {
       if (mode === "daftar") {
-        const { data, error } = await supabase.auth.signUp({ email, password: pass, options: { emailRedirectTo: window.location.origin, data: { nick: nick.trim().slice(0, 20) } } });
+        const { data, error } = await supabase.auth.signUp({ email, password: pass, options: { emailRedirectTo: window.location.origin, data: { nick: nick.trim().slice(0, 20), onboarding_version: 1 } } });
         if (error) {
           const msg = error.message.toLowerCase();
           if (error.code === "user_already_exists" || error.code === "email_exists" || msg.includes("already registered") || msg.includes("already exists")) { setTaken(true); throw new Error(TAKEN); }
