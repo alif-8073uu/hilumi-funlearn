@@ -68,8 +68,44 @@ export type Database = {
         }
         Relationships: []
       }
+      shared_quiz_answers: {
+        Row: {
+          answered_at: string
+          choice: number
+          idx: number
+          is_correct: boolean
+          quiz_id: string
+          user_id: string
+        }
+        Insert: {
+          answered_at?: string
+          choice: number
+          idx: number
+          is_correct: boolean
+          quiz_id: string
+          user_id: string
+        }
+        Update: {
+          answered_at?: string
+          choice?: number
+          idx?: number
+          is_correct?: boolean
+          quiz_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_quiz_answers_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "shared_quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shared_quiz_players: {
         Row: {
+          answered: number
           completed_at: string | null
           correct: number
           points: number
@@ -78,6 +114,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          answered?: number
           completed_at?: string | null
           correct?: number
           points?: number
@@ -86,6 +123,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          answered?: number
           completed_at?: string | null
           correct?: number
           points?: number
@@ -238,6 +276,10 @@ export type Database = {
     }
     Functions: {
       accept_streak_group: { Args: { g: string }; Returns: undefined }
+      answer_streak_quiz: {
+        Args: { choice: number; i: number; qid: string }
+        Returns: Json
+      }
       claim_legacy_profile: { Args: never; Returns: boolean }
       create_streak_group: {
         Args: { label: string; members: string[] }
@@ -252,6 +294,7 @@ export type Database = {
         Returns: string
       }
       is_streak_member: { Args: { g: string }; Returns: boolean }
+      review_streak_quiz: { Args: { qid: string }; Returns: Json }
       start_streak_quiz: { Args: { qid: string }; Returns: Json }
       streak_directory: {
         Args: { term: string }
