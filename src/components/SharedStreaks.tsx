@@ -11,6 +11,8 @@ import { GroupChat } from "./GroupChat";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 import { sharedGroups, visibleSharedDays, type MemberName } from "@/lib/shared";
+import { memberStatus } from "@/lib/member-status";
+import { useMemberPresence } from "@/lib/presence";
 
 export function SharedStreaks() {
   const uid = useStore((s) => s.uid);

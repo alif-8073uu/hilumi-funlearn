@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Home, MessageCircle, Swords, Layers, Users } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { startPresence, stopPresence } from "@/lib/presence";
 import { getRank } from "@/lib/game";
 import { SignIn } from "./SignIn";
 import { Lumi } from "./Lumi";

@@ -37,6 +37,13 @@ export function InvitedQuiz({ id }: { id: string }) {
   const { refetch } = query;
   const me = query.data?.players.find((p) => p.user_id === uid);
   const ended = Boolean(result || me?.completed_at);
+  const groupId = query.data?.quiz.group_id;
+  const playing = questions.length > 0 && !ended;
+
+  useEffect(() => {
+    setQuizPresence(playing ? groupId ?? null : null);
+    return () => setQuizPresence(null);
+  }, [playing, groupId]);
 
   // Live score: refresh the roster the moment any player answers.
   useEffect(() => {
