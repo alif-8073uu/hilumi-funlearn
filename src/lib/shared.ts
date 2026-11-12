@@ -12,7 +12,7 @@ export async function sharedGroups() {
     const [members, names, quizzes] = await Promise.all([
       supabase.from("streak_members").select("*").eq("group_id", g.id),
       supabase.rpc("streak_member_names", { g: g.id }),
-      supabase.from("shared_quizzes").select("id,group_id,title,expires_at,minutes,credited").eq("group_id", g.id).order("created_at", { ascending: false }).limit(5),
+      supabase.from("shared_quizzes").select("id,group_id,inviter_id,title,expires_at,minutes,credited").eq("group_id", g.id).order("created_at", { ascending: false }).limit(5),
     ]);
     if (members.error || names.error || quizzes.error) throw members.error ?? names.error ?? quizzes.error;
     return { ...g, members: members.data ?? [], names: names.data ?? [], quizzes: quizzes.data ?? [] };

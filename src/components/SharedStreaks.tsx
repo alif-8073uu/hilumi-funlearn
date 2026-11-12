@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Search, UserPlus, Check, Swords, Users, Flame, Clock, History, ChevronDown } from "lucide-react";
+import { Search, UserPlus, Check, Swords, Users, Flame, Clock, History, ChevronDown, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +10,7 @@ import { StreakPet } from "./StreakPet";
 import { GroupChat } from "./GroupChat";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
-import { sharedGroups, visibleSharedDays, type MemberName } from "@/lib/shared";
+import { canDeleteQuiz, sharedGroups, visibleSharedDays, type MemberName } from "@/lib/shared";
 import { memberStatus } from "@/lib/member-status";
 import { useMemberPresence } from "@/lib/presence";
 
@@ -25,7 +25,23 @@ export function SharedStreaks({ openChat }: { openChat?: string | undefined }) {
   const [selected, setSelected] = useState<MemberName[]>([]);
   const [busy, setBusy] = useState(false);
   const [openQuizzes, setOpenQuizzes] = useState<Record<string, boolean>>({});
+  const [deletingQuiz, setDeletingQuiz] = useState<string | null>(null);
   const refresh = () => client.invalidateQueries({ queryKey: ["shared-groups"] });
+  async function removeQuiz(id: string, title: string) {
+    if (!window.confirm(`Hapus undangan “${title}”? Semua progres dan hasil kuis ini juga akan terhapus permanen.`)) return;
+    setDeletingQuiz(id);
+    try {
+      const { data, error } = await supabase.from("shared_quizzes").delete().eq("id", id).select("id").maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error("Undangan sudah dihapus atau bukan milikmu.");
+      await refresh();
+      toast.success("Undangan kuis berhasil dihapus");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Gagal menghapus undangan");
+    } finally {
+      setDeletingQuiz(null);
+    }
+  }
   async function search() {
     const { data, error } = await supabase.rpc("streak_directory", { term: term.trim() });
     if (error) toast.error(error.message); else setResults(data ?? []);
@@ -86,7 +102,10 @@ export function SharedStreaks({ openChat }: { openChat?: string | undefined }) {
               const expired = !q.credited && new Date(q.expires_at).getTime() < Date.now();
               return <li key={q.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary/40 px-3 py-2.5">
                 <div className="flex min-w-0 items-center gap-3"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${q.credited ? "bg-flame/15 text-flame" : expired ? "bg-muted text-muted-foreground" : "bg-accent/15 text-accent"}`}>{q.credited ? <Flame className="h-4 w-4" /> : <Swords className="h-4 w-4" />}</span><div className="min-w-0"><b className="block break-words text-sm">{q.title}</b><p className="text-xs text-muted-foreground">{q.credited ? "Semua anggota selesai" : expired ? "Undangan berakhir" : "Menunggu pertandingan selesai"}</p></div></div>
-                <Link to="/kuis" search={{ invite: q.id }}><Button size="sm" className={q.credited ? "rounded-xl" : "invite-action h-10 rounded-xl px-4 font-display font-bold"}>{q.credited ? "Peringkat" : "Terima & Mulai"}</Button></Link>
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <Link to="/kuis" search={{ invite: q.id }}><Button size="sm" className={q.credited ? "rounded-xl" : "invite-action h-10 rounded-xl px-4 font-display font-bold"}>{q.credited ? "Peringkat" : "Terima & Mulai"}</Button></Link>
+                  {canDeleteQuiz(q.inviter_id, uid) && <Button type="button" variant="outline" size="sm" aria-label={`Hapus undangan ${q.title}`} disabled={deletingQuiz === q.id} onClick={() => void removeQuiz(q.id, q.title)} className="h-10 rounded-xl border-destructive/30 px-3 text-destructive hover:bg-destructive/10 hover:text-destructive"><Trash2 className="mr-1.5 h-4 w-4" />{deletingQuiz === q.id ? "Menghapus…" : "Hapus"}</Button>}
+                </div>
               </li>;
             })}
           </ul>}
