@@ -40,7 +40,7 @@ describe("Friend notifications", () => {
 
   it("shows a quiz invitation and links directly to that quiz", async () => {
     await showNotifications();
-    await act(async () => { mocks.callbacks.shared_quiz_players({ new: { quiz_id: "quiz-1", user_id: "me" } }); });
+    await act(async () => { mocks.callbacks["shared_quiz_players"]?.({ new: { quiz_id: "quiz-1", user_id: "me" } }); });
     expect(await screen.findByText("Bima mengajak kuis! ⚔️")).toBeInTheDocument();
     expect(screen.getByText("Kuis IPA · 10 menit. Yuk, main bareng!")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Ikut Kuis" })).toHaveAttribute("href", "/kuis?invite=quiz-1");
