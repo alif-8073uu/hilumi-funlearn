@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Search, UserPlus, Check, Swords, Users, Flame, Clock } from "lucide-react";
+import { Search, UserPlus, Check, Swords, Users, Flame, Clock, History, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,7 @@ export function SharedStreaks({ openChat }: { openChat?: string | undefined }) {
   const [results, setResults] = useState<MemberName[]>([]);
   const [selected, setSelected] = useState<MemberName[]>([]);
   const [busy, setBusy] = useState(false);
+  const [openQuizzes, setOpenQuizzes] = useState<Record<string, boolean>>({});
   const refresh = () => client.invalidateQueries({ queryKey: ["shared-groups"] });
   async function search() {
     const { data, error } = await supabase.rpc("streak_directory", { term: term.trim() });
@@ -54,6 +55,10 @@ export function SharedStreaks({ openChat }: { openChat?: string | undefined }) {
     {groups.data?.map((g) => {
       const me = g.members.find((m) => m.user_id === uid);
       const ready = g.members.every((m) => m.accepted);
+      const quizzes = g.quizzes;
+      const doneCount = quizzes.filter((q) => q.credited).length;
+      const waiting = quizzes.filter((q) => !q.credited && new Date(q.expires_at).getTime() >= Date.now()).length;
+      const openQ = Boolean(openQuizzes[g.id]);
       return <section key={g.id} className="border-b pb-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><div className="mb-1 flex items-center gap-2 text-xs font-bold text-accent"><Users className="h-4 w-4" />{g.members.length === 2 ? "Duo" : "Grup"} · {g.members.length} anggota</div><h2 className="break-words text-xl font-bold">{g.name}</h2></div>
           {me?.accepted ? <div className="flex flex-wrap gap-2"><GroupChat groupId={g.id} name={g.name} uid={uid ?? ""} names={g.names} autoOpen={openChat === g.id} /><Link to="/kuis" search={{ group: g.id }}><Button disabled={!ready} className="invite-action h-11 rounded-xl px-5 font-display font-bold"><Swords className="mr-2 h-4 w-4" />Undang Kuis</Button></Link></div> : <Button className="invite-action invite-action-pulse h-12 rounded-2xl px-6 font-display text-base font-bold" onClick={async () => { const { error } = await supabase.rpc("accept_streak_group", { g: g.id }); if (error) toast.error(error.message); else { await refresh(); toast.success("Bergabung dengan streak"); } }}><Check className="mr-2 h-5 w-5" />Terima Undangan Streak</Button>}
