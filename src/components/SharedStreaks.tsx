@@ -11,9 +11,12 @@ import { GroupChat } from "./GroupChat";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 import { sharedGroups, visibleSharedDays, type MemberName } from "@/lib/shared";
+import { memberStatus } from "@/lib/member-status";
+import { useMemberPresence } from "@/lib/presence";
 
 export function SharedStreaks() {
   const uid = useStore((s) => s.uid);
+  const presence = useMemberPresence();
   const client = useQueryClient();
   const groups = useQuery({ queryKey: ["shared-groups", uid], queryFn: sharedGroups, enabled: Boolean(uid), refetchInterval: 5000 });
   const [term, setTerm] = useState("");
@@ -56,7 +59,16 @@ export function SharedStreaks() {
           {me?.accepted ? <div className="flex flex-wrap gap-2"><GroupChat groupId={g.id} name={g.name} uid={uid ?? ""} names={g.names} /><Link to="/kuis" search={{ group: g.id }}><Button disabled={!ready}><Swords className="mr-2 h-4 w-4" />Undang Kuis</Button></Link></div> : <Button onClick={async () => { const { error } = await supabase.rpc("accept_streak_group", { g: g.id }); if (error) toast.error(error.message); else { await refresh(); toast.success("Bergabung dengan streak"); } }}><Check className="mr-2 h-4 w-4" />Terima Undangan</Button>}
         </div>
         <div className="mb-4 border-l-2 border-primary/50 bg-secondary/30 px-3 py-2"><StreakPet compact days={visibleSharedDays(g.streak_count, g.last_completed_day)} label={g.members.length === 2 ? "Pet Duo" : "Pet Grup"} /></div>
-        <ul className="mb-4 flex flex-wrap gap-3 text-sm">{g.members.map((m) => <li key={m.user_id} className="flex min-w-0 items-center gap-2"><span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-bold ${m.accepted ? "bg-accent/15 text-accent" : "bg-muted text-muted-foreground"}`}>{(g.names.find((n) => n.id === m.user_id)?.nick ?? "A").slice(0, 1).toUpperCase()}</span><div><p className="break-words font-bold">{g.names.find((n) => n.id === m.user_id)?.nick ?? "Anggota"}</p><p className={`flex items-center gap-1 text-xs ${m.accepted ? "text-success" : "text-muted-foreground"}`}>{m.accepted ? <Check className="h-3 w-3" /> : <Clock className="h-3 w-3" />}{m.accepted ? "Bergabung" : "Menunggu"}</p></div></li>)}</ul>
+        <ul className="mb-4 flex flex-wrap gap-3 text-sm">{g.members.map((m) => {
+          const status = memberStatus(m.accepted, presence[m.user_id], g.id);
+          const label = status === "quiz" ? "Bergabung" : status === "online" ? "Online" : status === "offline" ? "Offline" : "Menunggu";
+          return <li key={m.user_id} className="flex min-w-0 items-center gap-2">
+            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-bold ${m.accepted ? "bg-accent/15 text-accent" : "bg-muted text-muted-foreground"}`}>{(g.names.find((n) => n.id === m.user_id)?.nick ?? "A").slice(0, 1).toUpperCase()}</span>
+            <div><p className="break-words font-bold">{g.names.find((n) => n.id === m.user_id)?.nick ?? "Anggota"}</p><p className={`flex items-center gap-1 text-xs ${status === "online" ? "text-success" : status === "quiz" ? "text-primary" : "text-muted-foreground"}`}>
+              {status === "quiz" ? <Swords className="h-3 w-3" /> : status === "waiting" ? <Clock className="h-3 w-3" /> : <span className={`h-2 w-2 rounded-full ${status === "online" ? "bg-success" : "bg-muted-foreground/50"}`} />}{label}
+            </p></div>
+          </li>;
+        })}</ul>
         <div className="space-y-2">{g.quizzes.map((q) => <div key={q.id} className="flex flex-wrap items-center justify-between gap-3 border-t py-3"><div className="flex min-w-0 items-center gap-3"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${q.credited ? "bg-flame/15 text-flame" : "bg-accent/15 text-accent"}`}>{q.credited ? <Flame className="h-4 w-4" /> : <Swords className="h-4 w-4" />}</span><div className="min-w-0"><b className="break-words">{q.title}</b><p className="text-xs text-muted-foreground">{q.credited ? "Semua anggota selesai" : new Date(q.expires_at).getTime() < Date.now() ? "Undangan berakhir" : "Menunggu pertandingan selesai"}</p></div></div><Link to="/kuis" search={{ invite: q.id }}><Button size="sm" variant="secondary">{q.credited ? "Peringkat" : "Buka Undangan"}</Button></Link></div>)}</div>
       </section>;
     })}

@@ -10,6 +10,7 @@ import { QuizReview, LiveBoard } from "./QuizReview";
 import { useStore, actions } from "@/lib/store";
 import { quizStandings, getRank, wrongReaction, type ReviewItem } from "@/lib/game";
 import type { QuizQ } from "@/lib/ai.functions";
+import { setQuizPresence } from "@/lib/presence";
 
 type OpenQ = Omit<QuizQ, "answer" | "explain">;
 type Feedback = { correct: boolean; choice: number; answer: number; explain: string };
@@ -36,6 +37,13 @@ export function InvitedQuiz({ id }: { id: string }) {
   const { refetch } = query;
   const me = query.data?.players.find((p) => p.user_id === uid);
   const ended = Boolean(result || me?.completed_at);
+  const groupId = query.data?.quiz.group_id;
+  const playing = questions.length > 0 && !ended;
+
+  useEffect(() => {
+    setQuizPresence(playing ? groupId ?? null : null);
+    return () => setQuizPresence(null);
+  }, [playing, groupId]);
 
   // Live score: refresh the roster the moment any player answers.
   useEffect(() => {

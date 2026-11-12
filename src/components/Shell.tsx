@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Home, MessageCircle, Swords, Layers, Users } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { startPresence, stopPresence } from "@/lib/presence";
 import { getRank } from "@/lib/game";
 import { SignIn } from "./SignIn";
 import { Lumi } from "./Lumi";
@@ -18,7 +19,13 @@ const NAV = [
 export function Shell({ children }: { children: ReactNode }) {
   const user = useStore((s) => s.user);
   const ready = useStore((s) => s.authReady);
+  const uid = useStore((s) => s.uid);
   const xp = useStore((s) => s.xp);
+  useEffect(() => {
+    if (!uid) return;
+    startPresence(uid);
+    return stopPresence;
+  }, [uid]);
   const streak = useStore((s) => s.streak.count);
   const rank = getRank(xp);
   return (
