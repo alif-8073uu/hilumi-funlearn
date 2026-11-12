@@ -14,14 +14,21 @@ const STICKERS = ["👋", "😂", "🔥", "💪", "📚", "🪼", "🥳", "🙏"
 const HUES = ["bg-accent/20 text-accent", "bg-flame/20 text-flame", "bg-primary/20 text-primary", "bg-success/20 text-success"];
 const time = (iso: string) => new Date(iso).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
 
-export function GroupChat({ groupId, name, uid, names }: { groupId: string; name: string; uid: string; names: MemberName[] }) {
+export function GroupChat({ groupId, name, uid, names, autoOpen = false }: { groupId: string; name: string; uid: string; names: MemberName[]; autoOpen?: boolean }) {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const end = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const nick = (id: string) => names.find((n) => n.id === id)?.nick ?? "Anggota";
   const hue = (id: string) => HUES[Math.max(0, names.findIndex((n) => n.id === id)) % HUES.length];
+
+  useEffect(() => { if (autoOpen) setOpen(true); }, [autoOpen]);
+  function changeOpen(value: boolean) {
+    setOpen(value);
+    if (!value && autoOpen) void navigate({ to: "/teman", search: {}, replace: true });
+  }
 
   useEffect(() => {
     if (!open) return;

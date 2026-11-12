@@ -15,5 +15,6 @@ export const Route = createFileRoute("/teman")({
   component: Teman,
 });
 function Teman() {
-  return <Shell><h1 className="mb-4 text-3xl font-bold">Streak Duo & Grup</h1><SharedStreaks /></Shell>;
+  const { chat } = Route.useSearch();
+  return <Shell><h1 className="mb-4 text-3xl font-bold">Streak Duo & Grup</h1><SharedStreaks openChat={chat} /></Shell>;
 }

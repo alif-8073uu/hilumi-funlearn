@@ -49,6 +49,7 @@ export function Shell({ children }: { children: ReactNode }) {
       <main className="relative z-10 mx-auto max-w-5xl px-4 py-6">
         {!ready ? <div className="flex justify-center pt-20"><Lumi mood="thinking" size={100} /></div> : user ? children : <SignIn />}
       </main>
+      {user && uid && <FriendNotifications uid={uid} />}
       {user && (
         <WelcomeTour />
       )}

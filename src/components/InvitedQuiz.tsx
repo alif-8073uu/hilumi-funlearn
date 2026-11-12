@@ -152,7 +152,7 @@ export function InvitedQuiz({ id }: { id: string }) {
     </> : <>
       <p>{players.length} anggota · {quiz.minutes} menit</p><p className="text-sm text-muted-foreground">Berakhir {new Date(quiz.expires_at).toLocaleString("id-ID")}</p>
       <ul className="divide-y">{players.map((p) => <li key={p.user_id} className="flex justify-between py-3"><b>{nameOf(p.user_id)}</b><span>{p.completed_at ? "✓ Selesai" : p.started_at ? `Mengerjakan · ${p.answered} soal` : "Diundang"}</span></li>)}</ul>
-      <Button onClick={join} disabled={busy || new Date(quiz.expires_at).getTime() < Date.now()}>{busy ? "Membuka…" : me?.started_at ? "Lanjutkan Kuis" : "Terima & Mulai Kuis"}</Button>
+      <div className="glass rounded-3xl p-4 text-center"><p className="mb-3 font-display text-lg font-bold text-accent">⚔️ Siap bermain bareng temanmu?</p><Button onClick={join} disabled={busy || new Date(quiz.expires_at).getTime() < Date.now()} className="invite-action invite-action-pulse h-14 w-full rounded-2xl px-8 font-display text-lg font-bold"><Swords className="mr-2 h-5 w-5" />{busy ? "Membuka…" : me?.started_at ? "Lanjutkan Kuis" : "Terima & Mulai Kuis"}</Button></div>
     </>}
   </div>;
 }
