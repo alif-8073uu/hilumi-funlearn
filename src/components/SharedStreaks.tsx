@@ -74,7 +74,23 @@ export function SharedStreaks({ openChat }: { openChat?: string | undefined }) {
             </p></div>
           </li>;
         })}</ul>
-        <div className="space-y-2">{g.quizzes.map((q) => <div key={q.id} className="flex flex-wrap items-center justify-between gap-3 border-t py-3"><div className="flex min-w-0 items-center gap-3"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${q.credited ? "bg-flame/15 text-flame" : "bg-accent/15 text-accent"}`}>{q.credited ? <Flame className="h-4 w-4" /> : <Swords className="h-4 w-4" />}</span><div className="min-w-0"><b className="break-words">{q.title}</b><p className="text-xs text-muted-foreground">{q.credited ? "Semua anggota selesai" : new Date(q.expires_at).getTime() < Date.now() ? "Undangan berakhir" : "Menunggu pertandingan selesai"}</p></div></div><Link to="/kuis" search={{ invite: q.id }}><Button size="sm" className={q.credited ? "rounded-xl" : "invite-action h-10 rounded-xl px-4 font-display font-bold"}>{q.credited ? "Peringkat" : "Terima & Mulai"}</Button></Link></div>)}</div>
+        {quizzes.length === 0 ? <p className="rounded-2xl bg-secondary/30 px-4 py-3 text-sm text-muted-foreground">Belum ada kuis di streak ini. Klik <b className="text-foreground">Undang Kuis</b> untuk mulai! 🪼</p> : <div className="space-y-2">
+          <Button type="button" variant="outline" aria-expanded={openQ} aria-controls={`quiz-history-${g.id}`} onClick={() => setOpenQuizzes((s) => ({ ...s, [g.id]: !s[g.id] }))} className="quiz-toggle flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary"><History className="h-4 w-4" /></span>
+            <span className="min-w-0 flex-1"><b className="block font-display text-sm font-bold">Riwayat Kuis</b><span className="text-xs text-muted-foreground">{quizzes.length} kuis · {doneCount} selesai{waiting > 0 ? ` · ${waiting} menunggu` : ""}</span></span>
+            {waiting > 0 && <span className="quiz-badge shrink-0 rounded-full bg-flame px-2.5 py-1 text-xs font-bold text-primary-foreground">{waiting} menunggu</span>}
+            <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${openQ ? "rotate-180" : ""}`} />
+          </Button>
+          {openQ && <ul id={`quiz-history-${g.id}`} className="quiz-list grid gap-2">
+            {quizzes.map((q) => {
+              const expired = !q.credited && new Date(q.expires_at).getTime() < Date.now();
+              return <li key={q.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-secondary/40 px-3 py-2.5">
+                <div className="flex min-w-0 items-center gap-3"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${q.credited ? "bg-flame/15 text-flame" : expired ? "bg-muted text-muted-foreground" : "bg-accent/15 text-accent"}`}>{q.credited ? <Flame className="h-4 w-4" /> : <Swords className="h-4 w-4" />}</span><div className="min-w-0"><b className="block break-words text-sm">{q.title}</b><p className="text-xs text-muted-foreground">{q.credited ? "Semua anggota selesai" : expired ? "Undangan berakhir" : "Menunggu pertandingan selesai"}</p></div></div>
+                <Link to="/kuis" search={{ invite: q.id }}><Button size="sm" className={q.credited ? "rounded-xl" : "invite-action h-10 rounded-xl px-4 font-display font-bold"}>{q.credited ? "Peringkat" : "Terima & Mulai"}</Button></Link>
+              </li>;
+            })}
+          </ul>}
+        </div>}
       </section>;
     })}
   </div>;
