@@ -43,6 +43,13 @@
       "when": 1794482084494,
       "tag": "0005_enable_quiz_invite_notifications",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794482113725,
+      "tag": "0006_protect_quiz_answers_in_realtime",
+      "breakpoints": true
     }
   ]
 }
