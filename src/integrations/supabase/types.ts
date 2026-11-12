@@ -44,6 +44,24 @@ export type Database = {
         }
         Relationships: []
       }
+      password_reset_attempts: {
+        Row: {
+          email: string
+          failures: number
+          window_start: string
+        }
+        Insert: {
+          email: string
+          failures?: number
+          window_start?: string
+        }
+        Update: {
+          email?: string
+          failures?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           id: string
