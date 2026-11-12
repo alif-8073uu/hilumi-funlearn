@@ -3,7 +3,8 @@ import type { QuizQ } from "./ai.functions";
 import type { Json } from "@/integrations/supabase/types";
 
 export type MemberName = { id: string; nick: string; lumi_id: string };
-export type SharedQuiz = { id: string; group_id: string; title: string; expires_at: string; minutes: number; credited: boolean };
+export type SharedQuiz = { id: string; group_id: string; inviter_id: string; title: string; expires_at: string; minutes: number; credited: boolean };
+export const canDeleteQuiz = (inviterId: string, userId: string | null) => Boolean(userId && inviterId === userId);
 export async function sharedGroups() {
   const { data, error } = await supabase.from("streak_groups").select("*").order("created_at", { ascending: false });
   if (error) throw error;

@@ -1,4 +1,5 @@
 # HiLumi additions
+- [ ] Let quiz inviters permanently delete their own shared quiz invitations.
 - [x] Add email-link password recovery and test the 1–100 multiplication challenge.
 - [ ] Verify a received recovery email through password change and sign-in — requires access to the recipient inbox.
 - [x] Add and verify a first-signup feature introduction with the existing Lumi mascot.

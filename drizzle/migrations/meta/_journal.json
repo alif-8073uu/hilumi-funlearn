@@ -50,6 +50,13 @@
       "when": 1794482113725,
       "tag": "0006_protect_quiz_answers_in_realtime",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794483400941,
+      "tag": "0007_delete_own_quiz_invitations",
+      "breakpoints": true
     }
   ]
 }
