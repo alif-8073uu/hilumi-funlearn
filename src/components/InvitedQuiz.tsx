@@ -10,6 +10,7 @@ import { QuizReview, LiveBoard } from "./QuizReview";
 import { useStore, actions } from "@/lib/store";
 import { quizStandings, getRank, wrongReaction, type ReviewItem } from "@/lib/game";
 import type { QuizQ } from "@/lib/ai.functions";
+import { setQuizPresence } from "@/lib/presence";
 
 type OpenQ = Omit<QuizQ, "answer" | "explain">;
 type Feedback = { correct: boolean; choice: number; answer: number; explain: string };

@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Home, MessageCircle, Swords, Layers, Users } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { getRank } from "@/lib/game";
