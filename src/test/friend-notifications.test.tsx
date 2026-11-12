@@ -30,9 +30,9 @@ afterEach(() => { cleanup(); vi.clearAllMocks(); Object.keys(mocks.callbacks).fo
 describe("Friend notifications", () => {
   it("shows a friend's chat with a direct chat link and ignores my own message", async () => {
     await showNotifications();
-    await act(async () => { mocks.callbacks.streak_messages({ new: { id: "own", user_id: "me", group_id: "group-1", body: "Halo" } }); });
+    await act(async () => { mocks.callbacks["streak_messages"]?.({ new: { id: "own", user_id: "me", group_id: "group-1", body: "Halo" } }); });
     expect(screen.queryByRole("status")).not.toBeInTheDocument();
-    await act(async () => { mocks.callbacks.streak_messages({ new: { id: "message-1", user_id: "friend", group_id: "group-1", body: "Halo, sudah belajar?" } }); });
+    await act(async () => { mocks.callbacks["streak_messages"]?.({ new: { id: "message-1", user_id: "friend", group_id: "group-1", body: "Halo, sudah belajar?" } }); });
     expect(await screen.findByText("Bima mengirim pesan 💬")).toBeInTheDocument();
     expect(screen.getByText("Halo, sudah belajar?")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Buka Chat" })).toHaveAttribute("href", "/teman?chat=group-1");
