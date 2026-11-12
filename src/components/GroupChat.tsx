@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { MessageCircleHeart, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,14 +14,21 @@ const STICKERS = ["👋", "😂", "🔥", "💪", "📚", "🪼", "🥳", "🙏"
 const HUES = ["bg-accent/20 text-accent", "bg-flame/20 text-flame", "bg-primary/20 text-primary", "bg-success/20 text-success"];
 const time = (iso: string) => new Date(iso).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" });
 
-export function GroupChat({ groupId, name, uid, names }: { groupId: string; name: string; uid: string; names: MemberName[] }) {
+export function GroupChat({ groupId, name, uid, names, autoOpen = false }: { groupId: string; name: string; uid: string; names: MemberName[]; autoOpen?: boolean }) {
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const end = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const nick = (id: string) => names.find((n) => n.id === id)?.nick ?? "Anggota";
   const hue = (id: string) => HUES[Math.max(0, names.findIndex((n) => n.id === id)) % HUES.length];
+
+  useEffect(() => { if (autoOpen) setOpen(true); }, [autoOpen]);
+  function changeOpen(value: boolean) {
+    setOpen(value);
+    if (!value && autoOpen) void navigate({ to: "/teman", search: {}, replace: true });
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -48,7 +56,7 @@ export function GroupChat({ groupId, name, uid, names }: { groupId: string; name
     setMsgs((s) => (s.some((x) => x.id === data.id) ? s : [...s, data]));
   }
 
-  return <Sheet open={open} onOpenChange={setOpen}>
+  return <Sheet open={open} onOpenChange={changeOpen}>
     <SheetTrigger asChild><Button variant="secondary"><MessageCircleHeart className="mr-2 h-4 w-4" />Chat</Button></SheetTrigger>
     <SheetContent className="chat-sheet flex w-full flex-col gap-0 p-0 sm:max-w-md">
       <SheetHeader className="border-b px-4 py-3 text-left">

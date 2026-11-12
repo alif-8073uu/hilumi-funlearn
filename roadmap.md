@@ -15,3 +15,6 @@
 - [ ] Signed-in check (progress saving, invited quiz) — waiting on a real account signing in.
 - [x] Quiz review (all modes), instant right/wrong, live score, quiz history.
 - [ ] Live group quiz with two real accounts — needs a second member to play.
+- [x] Add attractive in-app chat and quiz-invite alerts with direct action buttons.
+- [x] Make streak and quiz invitation actions more prominent.
+- [ ] Live two-account alert delivery — blocked until the account to use for preview testing is identified.
