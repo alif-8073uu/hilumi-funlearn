@@ -56,7 +56,7 @@ export function GroupChat({ groupId, name, uid, names, autoOpen = false }: { gro
     setMsgs((s) => (s.some((x) => x.id === data.id) ? s : [...s, data]));
   }
 
-  return <Sheet open={open} onOpenChange={setOpen}>
+  return <Sheet open={open} onOpenChange={changeOpen}>
     <SheetTrigger asChild><Button variant="secondary"><MessageCircleHeart className="mr-2 h-4 w-4" />Chat</Button></SheetTrigger>
     <SheetContent className="chat-sheet flex w-full flex-col gap-0 p-0 sm:max-w-md">
       <SheetHeader className="border-b px-4 py-3 text-left">
