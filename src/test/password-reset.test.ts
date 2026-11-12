@@ -22,3 +22,15 @@ describe("Password recovery multiplication", () => {
     expect(canResetPassword(true, { left: 7, right: 8 }, "56")).toBe(true);
   });
 });
+import { answersMatch } from "@/lib/password-reset";
+describe("Reset security questions", () => {
+  const truth = { nick: "RaniPintar", streak: 4, tier: 1 };
+  it("accepts when nickname (any case), streak and rank all match", () => {
+    expect(answersMatch(truth, { nick: " ranipintar ", streak: 4, tier: 1 })).toBe(true);
+  });
+  it("rejects if any one answer is wrong", () => {
+    expect(answersMatch(truth, { nick: "Rani", streak: 4, tier: 1 })).toBe(false);
+    expect(answersMatch(truth, { nick: "RaniPintar", streak: 3, tier: 1 })).toBe(false);
+    expect(answersMatch(truth, { nick: "RaniPintar", streak: 4, tier: 2 })).toBe(false);
+  });
+});
