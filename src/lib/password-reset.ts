@@ -11,3 +11,8 @@ export function isCorrectAnswer(question: Multiplication, answer: string): boole
 export function canResetPassword(verifiedRecovery: boolean, question: Multiplication, answer: string): boolean {
   return verifiedRecovery && isCorrectAnswer(question, answer);
 }
+export type ResetAnswers = { nick: string; streak: number; tier: number };
+/** All three account facts must match: nickname (case-insensitive), current streak, and rank tier. */
+export function answersMatch(truth: ResetAnswers, given: ResetAnswers): boolean {
+  return truth.nick.trim().toLowerCase() === given.nick.trim().toLowerCase() && truth.streak === given.streak && truth.tier === given.tier;
+}
