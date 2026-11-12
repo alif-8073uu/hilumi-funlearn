@@ -194,6 +194,18 @@
 
 @media (prefers-reduced-motion: reduce) { * { animation-duration: 0s !important } }
 
+/* Friend alerts and invitation actions */
+@keyframes friend-notice-in { from { opacity: 0; transform: translateY(-18px) scale(.94) } to { opacity: 1; transform: none } }
+@keyframes invitation-glow { 0%,100% { box-shadow: 0 8px 24px -10px color-mix(in oklab, var(--primary) 80%, transparent) } 50% { box-shadow: 0 8px 34px -6px color-mix(in oklab, var(--accent) 85%, transparent) } }
+.friend-notice { animation: friend-notice-in .35s cubic-bezier(.2,.9,.25,1.15); backdrop-filter: blur(18px); box-shadow: 0 18px 55px -18px color-mix(in oklab, var(--accent) 75%, transparent) }
+.friend-notice-chat { background: linear-gradient(135deg, color-mix(in oklab, var(--card) 96%, transparent), color-mix(in oklab, var(--accent) 18%, var(--card))); border-color: color-mix(in oklab, var(--accent) 55%, transparent) }
+.friend-notice-quiz { background: linear-gradient(135deg, color-mix(in oklab, var(--card) 96%, transparent), color-mix(in oklab, var(--primary) 18%, var(--card))); border-color: color-mix(in oklab, var(--primary) 60%, transparent) }
+.notice-icon { border: 2px solid var(--card); animation: bubble-bob 2.2s ease-in-out infinite }
+.invite-action { color: var(--primary-foreground); border: 1px solid color-mix(in oklab, var(--foreground) 25%, transparent); background: linear-gradient(120deg, var(--primary), color-mix(in oklab, var(--accent) 72%, var(--primary))); box-shadow: 0 8px 24px -10px color-mix(in oklab, var(--primary) 80%, transparent); transition: transform .2s, filter .2s, box-shadow .2s }
+.invite-action:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 12px 30px -10px color-mix(in oklab, var(--accent) 85%, transparent) }
+.invite-action:active { transform: translateY(0) scale(.98) }
+.invite-action-pulse { animation: invitation-glow 2.4s ease-in-out infinite }
+
 /* Duo/group chat */
 .chat-sheet { background: radial-gradient(circle at 20% 0%, color-mix(in oklab, var(--accent) 14%, var(--background)), var(--background) 60%) }
 .chat-msg { border-radius: 1.25rem; padding: .5rem .85rem; font-size: .925rem; line-height: 1.4; box-shadow: 0 6px 16px -10px color-mix(in oklab, var(--accent) 60%, transparent) }

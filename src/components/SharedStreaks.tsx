@@ -14,7 +14,7 @@ import { sharedGroups, visibleSharedDays, type MemberName } from "@/lib/shared";
 import { memberStatus } from "@/lib/member-status";
 import { useMemberPresence } from "@/lib/presence";
 
-export function SharedStreaks() {
+export function SharedStreaks({ openChat }: { openChat?: string }) {
   const uid = useStore((s) => s.uid);
   const presence = useMemberPresence();
   const client = useQueryClient();

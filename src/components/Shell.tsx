@@ -7,6 +7,7 @@ import { getRank } from "@/lib/game";
 import { SignIn } from "./SignIn";
 import { Lumi } from "./Lumi";
 import { WelcomeTour } from "./WelcomeTour";
+import { FriendNotifications } from "./FriendNotifications";
 
 const NAV = [
   { to: "/", label: "Lobby", icon: Home },

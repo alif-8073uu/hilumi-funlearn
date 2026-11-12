@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { MessageCircleHeart, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
