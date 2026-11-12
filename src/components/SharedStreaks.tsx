@@ -16,6 +16,7 @@ import { useMemberPresence } from "@/lib/presence";
 
 export function SharedStreaks() {
   const uid = useStore((s) => s.uid);
+  const presence = useMemberPresence();
   const client = useQueryClient();
   const groups = useQuery({ queryKey: ["shared-groups", uid], queryFn: sharedGroups, enabled: Boolean(uid), refetchInterval: 5000 });
   const [term, setTerm] = useState("");

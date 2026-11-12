@@ -19,7 +19,13 @@ const NAV = [
 export function Shell({ children }: { children: ReactNode }) {
   const user = useStore((s) => s.user);
   const ready = useStore((s) => s.authReady);
+  const uid = useStore((s) => s.uid);
   const xp = useStore((s) => s.xp);
+  useEffect(() => {
+    if (!uid) return;
+    startPresence(uid);
+    return stopPresence;
+  }, [uid]);
   const streak = useStore((s) => s.streak.count);
   const rank = getRank(xp);
   return (
