@@ -196,20 +196,25 @@ function Play({ qs, seconds, opp, oppName, title, onExit }: { qs: QuizQ[]; secon
 function History() {
   const list = useStore((s) => s.quizHistory ?? []);
   const [open, setOpen] = useState<QuizRecord | null>(null);
-  if (!list.length) return null;
+  const [showHistory, setShowHistory] = useState(false);
   const label = { solo: "Mandiri", ai: "Lawan AI", grup: "Duo/Grup" } as const;
   return (
-    <section className="mt-8 space-y-2">
-      <h2 className="text-xl font-bold">🗂️ Riwayat Kuis</h2>
-      <p className="text-sm text-muted-foreground">Buka lagi soal yang sudah kamu kerjakan beserta pembahasannya.</p>
-      <ul className="grid gap-2">
-        {list.map((r) => { const s = reviewSummary(r.items); return (
-          <li key={r.id}><button type="button" onClick={() => setOpen(r)} className="glass flex w-full items-center gap-3 rounded-2xl p-3 text-left transition hover:border-primary">
-            <span className="text-2xl font-bold text-primary">{s.score}</span>
-            <span className="min-w-0 flex-1"><b className="block truncate">{r.title}</b><span className="text-xs text-muted-foreground">{label[r.mode]} · {new Date(r.at).toLocaleDateString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · ✓ {s.correct} ✗ {s.wrong}</span></span>
-            <span className="text-sm font-bold">Review →</span>
-          </button></li>); })}
-      </ul>
+    <section className="mt-8">
+      <Button type="button" variant="secondary" className="w-full justify-between rounded-2xl px-4 py-6" aria-expanded={showHistory} aria-controls="quiz-history" onClick={() => setShowHistory((v) => !v)}>
+        <span>🗂️ Histori Pengerjaan Kuis {list.length > 0 && <span className="ml-1 rounded-full bg-background/60 px-2 py-0.5 text-xs">{list.length}</span>}</span>
+        <span aria-hidden="true" className={`transition-transform ${showHistory ? "rotate-180" : ""}`}>⌄</span>
+      </Button>
+      {showHistory && <div id="quiz-history" className="mt-3 space-y-3">
+        <p className="text-sm text-muted-foreground">Pilih kuis untuk melihat jawaban, benar/salah, dan pembahasannya.</p>
+        {list.length === 0 ? <p className="glass rounded-2xl p-5 text-center text-sm text-muted-foreground">Belum ada histori. Selesaikan kuis pertamamu dulu, ya! 🪼</p> : <ul className="grid gap-2">
+          {list.map((r) => { const s = reviewSummary(r.items); return (
+            <li key={r.id}><button type="button" onClick={() => setOpen(r)} className="glass flex w-full items-center gap-3 rounded-2xl p-3 text-left transition hover:border-primary">
+              <span className="text-2xl font-bold text-primary">{s.score}</span>
+              <span className="min-w-0 flex-1"><b className="block truncate">{r.title}</b><span className="text-xs text-muted-foreground">{label[r.mode]} · {new Date(r.at).toLocaleDateString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · ✓ {s.correct} ✗ {s.wrong}</span></span>
+              <span className="text-sm font-bold">Review →</span>
+            </button></li>); })}
+        </ul>}
+      </div>}
       <Dialog open={open != null} onOpenChange={(o) => !o && setOpen(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{open?.title}</DialogTitle></DialogHeader>
