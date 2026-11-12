@@ -3,7 +3,8 @@ import type { QuizQ } from "./ai.functions";
 import type { Json } from "@/integrations/supabase/types";
 
 export type MemberName = { id: string; nick: string; lumi_id: string };
-export type SharedQuiz = { id: string; group_id: string; title: string; expires_at: string; minutes: number; credited: boolean };
+export type SharedQuiz = { id: string; group_id: string; inviter_id: string; title: string; expires_at: string; minutes: number; credited: boolean };
+export const canDeleteQuiz = (inviterId: string, userId: string | null) => Boolean(userId && inviterId === userId);
 export async function sharedGroups() {
   const { data, error } = await supabase.from("streak_groups").select("*").order("created_at", { ascending: false });
   if (error) throw error;
@@ -11,7 +12,7 @@ export async function sharedGroups() {
     const [members, names, quizzes] = await Promise.all([
       supabase.from("streak_members").select("*").eq("group_id", g.id),
       supabase.rpc("streak_member_names", { g: g.id }),
-      supabase.from("shared_quizzes").select("id,group_id,title,expires_at,minutes,credited").eq("group_id", g.id).order("created_at", { ascending: false }).limit(5),
+      supabase.from("shared_quizzes").select("id,group_id,inviter_id,title,expires_at,minutes,credited").eq("group_id", g.id).order("created_at", { ascending: false }).limit(5),
     ]);
     if (members.error || names.error || quizzes.error) throw members.error ?? names.error ?? quizzes.error;
     return { ...g, members: members.data ?? [], names: names.data ?? [], quizzes: quizzes.data ?? [] };
