@@ -75,7 +75,7 @@ export function FriendNotifications({ uid }: { uid: string }) {
         <div className="min-w-0 flex-1"><p className="font-display text-lg font-bold leading-tight">{notice.title}</p><p className="mt-1 line-clamp-2 break-words text-sm text-muted-foreground">{notice.body}</p></div>
       </div>
       <Button asChild size="sm" className="invite-action mt-3 w-full rounded-xl font-bold">
-        <Link to={notice.kind === "quiz" ? "/kuis" : "/teman"} search={notice.kind === "quiz" ? { invite: notice.quizId } : { chat: notice.groupId }} onClick={() => dismiss(notice.id)}>{notice.kind === "quiz" ? "Ikut Kuis" : "Buka Chat"}<ArrowRight className="ml-2 h-4 w-4" /></Link>
+        {notice.kind === "quiz" && notice.quizId ? <Link to="/kuis" search={{ invite: notice.quizId }} onClick={() => dismiss(notice.id)}>Ikut Kuis<ArrowRight className="ml-2 h-4 w-4" /></Link> : <Link to="/teman" search={notice.groupId ? { chat: notice.groupId } : {}} onClick={() => dismiss(notice.id)}>Buka Chat<ArrowRight className="ml-2 h-4 w-4" /></Link>}
       </Button>
     </div>)}
   </div>;
