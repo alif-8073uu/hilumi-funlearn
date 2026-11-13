@@ -96,7 +96,7 @@ export function AboutHiLumi() {
         </div>
 
         {/* Misi */}
-        <div className="about-reveal space-y-4 text-center">
+        <div id="misi-hilumi" className="about-reveal space-y-4 text-center scroll-mt-24">
           <Heading icon={<Target className="h-7 w-7 text-primary" />}>Misi HiLumi</Heading>
           <blockquote className="relative rounded-3xl bg-lumi p-[2px] shadow-glow">
             <div className="rounded-[calc(1.5rem-2px)] bg-card px-6 py-6">
@@ -127,7 +127,7 @@ export function AboutHiLumi() {
         </div>
 
         {/* Fitur Unggulan */}
-        <div className="space-y-4">
+        <div id="fitur-hilumi" className="space-y-4 scroll-mt-24">
           <div className="about-reveal text-center"><Heading icon={<Sparkles className="h-7 w-7 text-sun" />}>Fitur Unggulan</Heading></div>
           <div className="space-y-3">
             {FEATURES.map(({ icon: Icon, title, text, tone }, i) => (
