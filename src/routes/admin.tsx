@@ -55,11 +55,12 @@ function Admin() {
 
 function Panel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [users, setUsers] = useState<AdminUser[]>([]);
+  const [visits, setVisits] = useState(0);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    try { setUsers((await adminListUsers({ data: { token } })).users); }
+    try { const r = await adminListUsers({ data: { token } }); setUsers(r.users); setVisits(r.visitsToday); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Gagal memuat"); onLogout(); }
   }, [token, onLogout]);
   useEffect(() => { load(); }, [load]);
@@ -79,8 +80,8 @@ function Panel({ token, onLogout }: { token: string; onLogout: () => void }) {
         <h1 className="text-3xl font-bold">Panel Admin <span className="text-primary">HiLumi</span></h1>
         <div className="flex gap-2"><Button variant="secondary" size="sm" onClick={load}>Muat ulang</Button><Button variant="secondary" size="sm" onClick={onLogout}>Keluar</Button></div>
       </div>
-      <div className="mt-4 grid grid-cols-3 gap-3">
-        {[["Total siswa", users.length], ["Aktif hari ini", activeToday], ["Total XP", totalXp]].map(([l, v]) => (
+      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[["Total pengunjung hari ini", visits], ["Total siswa", users.length], ["Aktif hari ini", activeToday], ["Total XP", totalXp]].map(([l, v]) => (
           <div key={l} className="glass rounded-3xl p-4"><p className="text-sm text-muted-foreground">{l}</p><p className="text-3xl font-bold">{v}</p></div>
         ))}
       </div>

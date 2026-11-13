@@ -131,6 +131,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    void import("@/integrations/supabase/client").then(({ supabase }) => supabase.from("site_visits").insert({}).then(() => undefined));
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
