@@ -203,6 +203,21 @@ export type Database = {
           },
         ]
       }
+      site_visits: {
+        Row: {
+          id: number
+          visited_at: string
+        }
+        Insert: {
+          id?: never
+          visited_at?: string
+        }
+        Update: {
+          id?: never
+          visited_at?: string
+        }
+        Relationships: []
+      }
       streak_groups: {
         Row: {
           created_at: string

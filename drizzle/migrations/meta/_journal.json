@@ -57,6 +57,13 @@
       "when": 1794483400941,
       "tag": "0007_delete_own_quiz_invitations",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794543439787,
+      "tag": "0008_site_visits",
+      "breakpoints": true
     }
   ]
 }

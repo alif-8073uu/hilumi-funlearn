@@ -37,7 +37,11 @@ export const adminListUsers = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     const { data: au } = await supabaseAdmin.auth.admin.listUsers({ perPage: 1000 });
     const byId = new Map((au?.users ?? []).map((u) => [u.id, u]));
+    const now = new Date(Date.now() + 7 * 3600e3);
+    const start = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - 7 * 3600e3).toISOString();
+    const { count: visitsToday } = await supabaseAdmin.from("site_visits").select("id", { count: "exact", head: true }).gte("visited_at", start);
     return {
+      visitsToday: visitsToday ?? 0,
       users: (rows ?? []).map((r) => ({
         ...r,
         progress: (r.progress ?? {}) as Record<string, any>,
