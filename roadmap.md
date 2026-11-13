@@ -1,4 +1,5 @@
 # HiLumi additions
+- [x] Add competition footer with creator contacts, useful links, and an interactive rank/pet guide; verified desktop and phone.
 - [x] Let quiz inviters permanently delete their own shared quiz invitations; live deletion not attempted on existing student data.
 - [x] Add email-link password recovery and test the 1–100 multiplication challenge.
 - [ ] Verify a received recovery email through password change and sign-in — requires access to the recipient inbox.

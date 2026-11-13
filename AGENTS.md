@@ -39,3 +39,4 @@ use the editor.
 - Duo/group chat lives in public.streak_messages (members read, accepted members insert, realtime) and is deliberately separate from quiz/streak RPCs so chatting never advances a streak.
 - First-signup tours use a signup metadata marker and a completion flag in profile progress; render the shared tour in Shell so existing accounts are not interrupted and completion follows the account.
 - Password resets send no email: server functions in src/lib/reset.functions.ts confirm the email exists, then require nickname + current streak + rank tier (answersMatch) with 5 failures/hour lockout in password_reset_attempts before the service role sets the new password.
+- Render the shared student footer in Shell; its public guide derives rank and pet thresholds from game rules so guidance stays consistent without duplicating limits.

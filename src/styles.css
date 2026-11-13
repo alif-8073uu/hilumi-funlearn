@@ -217,6 +217,9 @@
 .chat-bubble-deco { position: absolute; bottom: 0; border-radius: 9999px; border: 1px solid color-mix(in oklab, var(--accent) 45%, transparent); animation: bubble-bob 6s ease-in-out infinite; pointer-events: none; opacity: .5 }
 
 /* Duo/grup: riwayat kuis bisa dibuka-tutup */
+.hilumi-footer { background: color-mix(in oklab, var(--card) 65%, var(--background)); }
+.hilumi-footer a:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; border-radius: 4px; }
+
 .quiz-toggle { border-color: color-mix(in oklab, var(--primary) 35%, transparent); background: color-mix(in oklab, var(--primary) 8%, transparent); transition: transform .2s, background .2s, border-color .2s }
 .quiz-toggle:hover { transform: translateY(-1px); background: color-mix(in oklab, var(--primary) 14%, transparent); border-color: color-mix(in oklab, var(--primary) 55%, transparent) }
 .quiz-badge { animation: invitation-glow 2.4s ease-in-out infinite }
