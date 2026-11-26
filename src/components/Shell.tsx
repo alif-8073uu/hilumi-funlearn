@@ -9,6 +9,7 @@ import { Lumi } from "./Lumi";
 import { WelcomeTour } from "./WelcomeTour";
 import { FriendNotifications } from "./FriendNotifications";
 import { HiLumiFooter } from "./HiLumiFooter";
+import { ContactPerson } from "./ContactPerson";
 
 const NAV = [
   { to: "/", label: "Lobby", icon: Home },
@@ -38,12 +39,14 @@ export function Shell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-20 glass border-x-0 border-t-0">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link to="/" className="font-display text-2xl font-bold">Hi<span className="text-lumi-blue">Lumi</span></Link>
-          {user && (
+          {user ? (
             <Link to="/profil" className="flex items-center gap-3 text-sm font-bold">
               <span className="rounded-full bg-flame px-3 py-1 text-primary-foreground">🔥 {streak}</span>
               <span className="hidden sm:inline">{rank.emoji} {rank.name}</span>
               <span className="grid h-9 w-9 place-items-center rounded-full bg-lumi text-primary-foreground">{user.nick[0]?.toUpperCase()}</span>
             </Link>
+          ) : (
+            ready && <ContactPerson />
           )}
         </div>
       </header>
